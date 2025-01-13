@@ -49,7 +49,7 @@ if [ "$1" == "M17" ]; then
   th=$(sed -nr "/^\[M17]/ { :1 /^Theme[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b 1;}" /etc/ColorThemes.ini)
   Split=$(sed -nr "/^\[M17]/ { :1 /^Split[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b 1;}" /etc/ColorThemes.ini)
 fi
-echo "Theme$th"
+#echo "Theme$th"
 thm="Theme$th"
 	Cn=$(sed -nr "/^\["$thm"]/ { :1 /^Color[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b 1;}" /etc/ColorThemes.ini)
 	CB1=$(sed -nr "/^\["$thm"]/ { :1 /^CB1[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b 1;}" /etc/ColorThemes.ini)
