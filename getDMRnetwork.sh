@@ -3,7 +3,7 @@
 #  Get Last Heard Network from DMRGateway	#
 #						#
 #						#
-#  VE3RD 			2020-11-29	#
+#  VE3RD 			2025-01-14	#
 #################################################
 set -o errexit
 set -o pipefail
