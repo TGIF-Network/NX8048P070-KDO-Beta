@@ -33,8 +33,8 @@ if [ -n "$(ls -A /var/log/pi-star/MM* 2>/dev/null)" ]; then
                 	NetType=$(sudo tail -n1 "$f1" | cut -d " " -f 4)
 			NetNum=$(sudo tail -n1 "$f1" | cut -d " " -f 6)
 			NName=$(sudo sed -nr "/^\[DMR Network "${NetNum##*( )}"\]/ { :l /^Name[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" /etc/dmrgateway)
-			NName=$(echo "$NName" | cut -d "_" -f1 |  tr '[:lower:]' '[:upper:]')
-#			NName=$(echo "$NName" |  tr '[:lower:]' '[:upper:]')
+#			NName=$(echo "$NName" | cut -d "_" -f1 |  tr '[:lower:]' '[:upper:]')
+			NName=$(echo "$NName" |  tr '[:lower:]' '[:upper:]')
    			result=$(echo "DMR|$NName|GW:${NetNum##*( )}")
 	else
         
@@ -43,6 +43,7 @@ if [ -n "$(ls -A /var/log/pi-star/MM* 2>/dev/null)" ]; then
 #			ms=$(echo "$ms1" | cut -d '|' -f 1 | cut -d "_" -f 1)
 			ms=$(echo "$ms1" | cut -d '|' -f 1 )
                 	result=$(echo "DMR|$ms|NA")
+#			echo "$ms1"
 	fi
 #	echo "Mode=DMR"
 
