@@ -107,15 +107,15 @@ list1=$(sudo sed -n '/transmission from/p' $f1 | tail -1)
 #mode=$(echo "${list1:27:8}" |sed 's/,//g' | cut -d " " -f1)
 mode=$(echo "$list1" | cut -d " " -f4 | sed 's/,//g' )
 dt=$(echo "$list1" | cut -d " " -f2 )
-tm=$(echo "$list1" | cut -d " " -f3 | cut -d "." -f1)
+tm1=$(echo "$list1" | cut -d " " -f3 | cut -d "." -f1)
 #echo "$mode"
+tm=$(date -d "${tm1:0:-1} UTC" '+%R')
 
 if [ "$mode" == "DMR" ]; then
         list1=$(sudo sed -n '/received network end of voice transmission from/p' $f1 | sed 's/,//g' | tail -1)
 	tm1=$(echo "${list1:3:19}")
-	echo "$tm1"
-	tm=$(date -d "${tm1:0:-1} UTC" '+%R')
-	echo "$tm"
+#	echo "$tm1"
+#	echo "$tm"
 
         call=$(echo "$list1" | cut -d " " -f14)
         echo "Add Call: $call" >> /home/pi-star/lh2_start.txt
@@ -166,12 +166,6 @@ if [ "$mode" == "M17" ]; then
 #        echo "$mode: $Call"
         domodedysf
 fi
-
-
-#tm=$(echo "$list1" | cut -d " " -f3)
-#tm="${tm:0:8}"
-#echo "$dt :: $tm :: $mode :: $call"
-#echo "$tm1"
 
 sudo mount -o remount,ro /
 
