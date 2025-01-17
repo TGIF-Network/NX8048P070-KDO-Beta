@@ -130,9 +130,9 @@ if [ "$mode" == "DMR" ]; then
         pl=$(echo "$list1" | cut -d " " -f20)
       name="$n1"
 
-if [ -z "$city" ]; then
-        city="N/A"
-fi
+	if [ -z "$city" ]; then
+        	city="N/A"
+	fi
         echo "$dt|$tm|$mode|$call|$name|$city, $prov, $country|$tg|$pl"
 	
 	domodedmr
@@ -141,6 +141,12 @@ if [ "$mode" == "D-Star" ]; then
 	list1=$(sudo sed -n '/received network end of transmission from/p' $f1 | sed 's/,//g' | tail -1)
 	call=$(echo "$list1" | cut -d " " -f11)
 	pl=$(echo "$list1" | cut -d " " -f19)
+
+	list2=$(sudo sed -n '/end of transmission/p' $f1 | sed 's/,//g' | tail -1)
+	tg2=$(echo "$list2" | cut -d " " -f15)
+	tg1=$(echo "$list2" | cut -d " " -f14)
+	tg="$tg2 $tg1"
+
 #	echo "$mode: $Call"
 	domodedstar
 fi
@@ -148,9 +154,12 @@ fi
 if [ "$mode" == "YSF" ]; then
         list1=$(sudo sed -n '/received network end of transmission from/p' $f1 | sed 's/,//g' | tail -1)
         call=$(echo "$list1" | cut -d " " -f11)
-	pl=$(echo "$list1" | cut -d " " -f19)
+	pl=$(echo "$list1" | cut -d " " -f22)
 #        echo "$mode: $Call"
-        domodedysf
+         tg1=$(echo "$list1" | cut -d " " -f17)
+         tg2=$(echo "$list1" | cut -d " " -f18)
+	tg="$tg1 $tg2"
+	domodedysf
 fi
 if [ "$mode" == "NXDN" ]; then
         list1=$(sudo sed -n '/received network end of transmission from/p' $f1 | sed 's/,//g' | tail -1)
