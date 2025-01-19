@@ -128,14 +128,24 @@ if [ "$mode" == "DMR" ]; then
         country=$(echo "$dataline" | cut -d',' -f7 | head -1)
         tg=$(echo "$list1" | cut -d " " -f17)
         pl=$(echo "$list1" | cut -d " " -f20)
-      name="$n1"
+        name="$n1"
+	BER=$(echo "$list1" | cut -d " " -f24)
+	rx=$(echo "$list1" | cut -d " " -f8)
+	if [ "$rx" == "$RF" ]; then
+		pl="N/A"
+		BER=$(echo "$list1" | cut -d " " -f21)
+	fi
+
+#M: 2025-01-17 23:19:06.311 DMR Slot 2, received RF end of voice transmission from VE3RD to TG 14031665, 1.1 seconds, BER: 0.4%, RSSI: -47/-47/-47 dBm
+#M: 2025-01-17 23:19:35.377 DMR Slot 2, received network end of voice transmission from VE3RD to TG 14031665, 0.5 seconds, 0% packet loss, BER: 0.0%
+
 
 	if [ -z "$city" ]; then
         	city="N/A"
 	fi
-        echo "$dt|$tm|$mode|$call|$name|$city, $prov, $country|$tg|$pl"
+        echo "$dt|$tm|$mode|$call|$name|$city, $prov, $country|$tg|$pl|$BER"
 	
-	domodedmr
+#	domodedmr
 fi
 if [ "$mode" == "D-Star" ]; then
 	list1=$(sudo sed -n '/received network end of transmission from/p' $f1 | sed 's/,//g' | tail -1)

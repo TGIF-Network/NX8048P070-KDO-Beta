@@ -35,14 +35,14 @@ if [ -n "$(ls -A /var/log/pi-star/MM* 2>/dev/null)" ]; then
 			NName=$(sudo sed -nr "/^\[DMR Network "${NetNum##*( )}"\]/ { :l /^Name[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" /etc/dmrgateway)
 			NName=$(echo "$NName" | cut -d "_" -f1 |  tr '[:lower:]' '[:upper:]')
 #			NName=$(echo "$NName" |  tr '[:lower:]' '[:upper:]')
-   			result=$(echo "DMR|$NName|GW:${NetNum##*( )}")
+   			result=$(echo "DMR $NName GW:${NetNum##*( )}")
 	else
         
                 	GW="OFF"
 			ms1=$(sudo sed -n '/^[^#]*'"$Addr"'/p' /usr/local/etc/DMR_Hosts.txt | tail -n 1 | sed -E "s/[[:space:]]+/|/g") 
 #			ms=$(echo "$ms1" | cut -d '|' -f 1 | cut -d "_" -f 1)
 			ms=$(echo "$ms1" | cut -d '|' -f 1 )
-                	result=$(echo "DMR|$ms|NA")
+                	result=$(echo "DMR $ms NA")
 #			echo "$ms1"
 	fi
 #	echo "Mode=DMR"
@@ -58,13 +58,13 @@ if [ -n "$(ls -A /var/log/pi-star/MM* 2>/dev/null)" ]; then
 		if [ -z "$server" ]; then
 			server=$(grep "$tg" /usr/local/etc/P25Hosts.txt |  tr '\t' ' ' | cut -d " " -f2 | cut -d "." -f1 | tr '[:lower:]' '[:upper:]')
 		fi
-		result=$(echo "P25|$server|NA")
+		result=$(echo "P25 $server NA")
 	
 
      elif [ "$nMode" == "YSF" ]; then
 		tg=$(sed -nr "/^\[Network\]/ { :l /^Startup[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" /etc/ysfgateway)
 		server=$(grep "$tg" /usr/local/etc/YSFHosts.txt |  tr '\t' ' ' | cut -d ";" -f3 | cut -d "." -f1 | tr '[:lower:]' '[:upper:]')
-		result=$(echo "YSF|$server|NA")
+		result=$(echo "YSF $server")
 	
 
      elif [ "$nMode" == "NXDN" ]; then
@@ -72,7 +72,7 @@ if [ -n "$(ls -A /var/log/pi-star/MM* 2>/dev/null)" ]; then
 		tg=$(sed -nr "/^\[Network\]/ { :l /^Static[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" /etc/nxdngateway)
 		echo "tg-$tg"
 		server=$(grep "$tg" /usr/local/etc/NXDNHosts.txt |  tr '\t' ' ' | cut -d " " -f2 | cut -d "." -f1 | tr '[:lower:]' '[:upper:]')
-		result=$(echo "NXDN|$tg|NA")
+		result=$(echo "NXDN $tg")
       fi
 
 	echo "$result"
