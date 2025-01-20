@@ -7,6 +7,10 @@
 set -o errexit
 set -o pipefail
 
+
+args=("$@")
+
+
  sudo mount -o remount,rw /
 
         sudo sed -i '/^\[/h;G;/D-Star/s/\(ModeHang=\).*/\1'"$1"'/m;P;d'  /etc/mmdvmhost
@@ -22,9 +26,9 @@ set -o pipefail
         sudo sed -i '/^\[/h;G;/P25 Network/s/\(ModeHang=\).*/\1'"$8"'/m;P;d'  /etc/mmdvmhost
 
         sudo sed -i '/^\[/h;G;/NXDN/s/\(ModeHang=\).*/\1'"$9"'/m;P;d'  /etc/mmdvmhost
-        sudo sed -i '/^\[/h;G;/NXDN Network/s/\(ModeHang=\).*/\1'"$10"'/m;P;d'  /etc/mmdvmhost
+        sudo sed -i '/^\[/h;G;/NXDN Network/s/\(ModeHang=\).*/\1'"${args[9]}"'/m;P;d'  /etc/mmdvmhost
 
-        sudo sed -i '/^\[/h;G;/M17/s/\(ModeHang=\).*/\1'"$11"'/m;P;d'  /etc/mmdvmhost
-        sudo sed -i '/^\[/h;G;/M17 Network/s/\(ModeHang=\).*/\1'"$12"'/m;P;d'  /etc/mmdvmhost
+        sudo sed -i '/^\[/h;G;/M17/s/\(ModeHang=\).*/\1'"${args[10]}"'/m;P;d'  /etc/mmdvmhost
+        sudo sed -i '/^\[/h;G;/M17 Network/s/\(ModeHang=\).*/\1'"${args[11]}"'/m;P;d'  /etc/mmdvmhost
 
  sudo mount -o remount,ro /
