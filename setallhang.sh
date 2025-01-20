@@ -7,9 +7,6 @@
 set -o errexit
 set -o pipefail
 
-if [ -Z "$12" ]; then
- exit
-fi
  sudo mount -o remount,rw /
 
         sudo sed -i '/^\[/h;G;/D-Star/s/\(ModeHang=\).*/\1'"$1"'/m;P;d'  /etc/mmdvmhost
