@@ -10,6 +10,9 @@ set -o pipefail
 
 # Set value in $2 for Mode/Network
 
+sudo mount -o remount,rw /
+
+
 if [ -z "$1" ]; then
         exit
         else
@@ -43,3 +46,4 @@ if [ -z "$1" ]; then
         if [ "$1" = 10 ]; then sudo sed -i '/\[NXDN Network\]/!b;n;n;n;n;n;n;n;cModeHang='"$2"'' /etc/mmdvmhost
         fi
 fi;
+sudo mount -o remount,ro /
