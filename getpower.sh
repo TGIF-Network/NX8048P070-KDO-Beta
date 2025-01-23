@@ -16,44 +16,55 @@ else roption=$1
 fi
 
 #echo "Report Option:" "$roption"
+op="Power Ewport|"
 
 if [ $roption == $"P" ]; then
         hex=$(vcgencmd get_throttled | awk '{print substr( $0, 11, 200 ) }')
         if (( ($hex & 0x01) == 0x01 ))
-                then echo "Under voltage detected"
+                then ##echo "Under voltage detected"
+		op="$op Under Voltage Detected|"
         fi
 
         if (( ($hex & 0x02) == 0x02 ))
-                then echo "Arm frequency capped"
+                then ##echo "Arm frequency capped"
+		op="$op Arm Frequency Capped|"
         fi
 
         if (( ($hex & 0x04) == 0x04 ))
-                then echo "Currently throttled"
+                then ##echo "Currently throttled"
+		op="$op Currently throttled|"
         fi
 
         if (( ($hex & 0x08) == 0x08 ))
-                then echo "Soft temperature limit active"
+                then ## echo "Soft temperature limit active"
+		op="$op Soft temperature limit active|"
         fi
 
         if (( ($hex & 0x8000)== 0x8000 ))
-                then echo "Under voltage has occurred since last boot"
+                then ##echo "Under voltage has occurred since last boot"
+		op="$op Under voltage has occurred since last boot|"
         fi
 
         if (( ($hex & 0x10000) == 0x10000 ))
-        then echo "Arm frequency capped has occurred"
-        fi
+	        then ##echo "Arm frequency capped has occurred"
+        		op="$op Arm frequency capped has occurred|"
+	fi
 
         if (( ($hex & 0x20000) == 0x20000 ))
-                then echo "Throttling has occurred"
+                then ##echo "Throttling has occurred"
+		op="$op Throttling has occurred|"
         fi
 
         if (( ($hex & 0x40000)== 0x40000 ))
-                then echo "Soft temperature limit has occurred"
+                then ##echo "Soft temperature limit has occurred"
+		op="$op Soft temperature limit has occurred|"
         fi
 
         if (( ($hex == 0x00) ))
-                then echo "Power looks good since last re-boot!"
+                then ##echo "Power looks good since last re-boot!"
+		op="$op Power looks good since last re-boot|"
         fi
+echo "$op"
 fi
 
 if [ $roption == $"ALL" ]; then

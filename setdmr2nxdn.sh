@@ -122,14 +122,14 @@ sudo /usr/local/sbin/mmdvmhost.service restart  > /dev/null
   
 	fi
 	if [ "$1" = 1 ] &&  [ "$2" = 0 ]; then
-		#DMRGateway ON / DMR2NXDD OFF
+		#DMRGateway ON / DMR2NXDN OFF
         		sudo sed -i '/^\[/h;G;/DMR/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
         		sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
         		sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Port=\).*/\162031/m;P;d' /etc/mmdvmhost
         		sudo sed -i '/^\[/h;G;/DMR/s/\(^Id=\).*/\1'"$m1"'/m;P;d' /etc/mmdvmhost
         		sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Address=\).*/\1'"127.0.0.1"'/m;P;d' /etc/mmdvmhost
         		sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Password=\).*/\1'"passw0rd"'/m;P;d' /etc/mmdvmhost
-  		echo "Setting DMRgateway ON DMR2YSF OFF"
+  		echo "Setting DMRgateway ON DMR2NXDN OFF"
 sudo /usr/local/sbin/mmdvmhost.service restart  > /dev/null
 
 	fi

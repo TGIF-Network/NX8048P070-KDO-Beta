@@ -30,7 +30,7 @@ t3=$(sed -nr "/^\[P25 Network\]/ { :1 /^StartupDstId[ ]*=/ { s/.*=[ ]*//; p; q;}
 t4=$(sed -nr "/^\[DMR Network\]/ { :1 /^DefaultDstTG[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b 1;}" /etc/dmr2ysf)
 t5=$(sed -nr "/^\[Network\]/ { :1 /^Static[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b 1;}" /etc/nxdngateway)
 
-n1=$(sed -nr "/^\[Network\]/ { :1 /^Startup[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b 1;}" /etc/ysfgateway)
+n1=$(sed -nr "/^\[DMR Network\]/ { :1 /^Address[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b 1;}" /etc/ysf2dmr)
 n2=$(sed -nr "/^\[Network\]/ { :1 /^Static[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b 1;}" /etc/nxdngateway)
 n3=$(sed -nr "/^\[Network\]/ { :1 /^Static[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b 1;}" /etc/p25gateway)
 n4=$(sed -nr "/^\[DMR Network\]/ { :1 /^DefaultDstTG[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b 1;}" /etc/dmr2ysf)
@@ -39,7 +39,7 @@ n4=$(sed -nr "/^\[DMR Network\]/ { :1 /^DefaultDstTG[ ]*=/ { s/.*=[ ]*//; p; q;}
 
 
 # grep 32592 /usr/local/etc/YSFHosts.txt
-n2=$(sed -r '/^'"$n2"'\t|shared/!d' /usr/local/etc/NXDN*.txt | cut -f2)
+n2=$(sed -r '/^'"$t2"'\t|shared/!d' /usr/local/etc/NXDN*.txt | cut -f2)
 n3=$(sed -r '/^'"$t3"'\t|shared/!d' /usr/local/etc/P25*.txt | cut -f2)
 n4=$(sed -r '/^'"$t4"'\t|shared/!d' /usr/local/etc/YSFHo*.txt | cut -d ";" -f2)
 n4=$(grep "$t4" /usr/local/etc/YSF* | cut -d ";" -f2 | head -1)

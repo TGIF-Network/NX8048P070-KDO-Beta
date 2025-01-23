@@ -32,24 +32,25 @@ sudo mount -o remount,rw /
         if [ "$3" = "1" ]; then 
 		on="1"
 		 sudo /usr/local/etc/Nextion_Support/setysf2p25.sh 1
-
 	 fi
+
 
         if [ "$4" = "1" ]; then 
 		on="1"
-		 sudo /usr/local/etc/Nextion_Support/setdmr2ysf.sh 1
+		 sudo /usr/local/etc/Nextion_Support/setdmr2ysf.sh "$6" 1
 
        fi
 
+
         if [ "$5" = "1" ]; then 
 		on="1"
-		 sudo /usr/local/etc/Nextion_Support/setdmr2nxdn.sh 0 1
+		 sudo /usr/local/etc/Nextion_Support/setdmr2nxdn.sh "$6" 1
         fi
-        if [ "$on" = "0" ]; then 
-		on="1"
-		 sudo /usr/local/etc/Nextion_Support/setdmr2nxdn.sh 0 1
 
-        fi
+  #      if [ "$on" = "0" ]; then 
+#		on="1"
+#		 sudo /usr/local/etc/Nextion_Support/setdmr2nxdn.sh 0 1
+ #       fi
 
 
 
