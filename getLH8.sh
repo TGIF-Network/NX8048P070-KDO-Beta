@@ -52,7 +52,7 @@ do
 
 #	line3=$(echo  "$dt" "$tm" "$call" "$name" | awk '{printf  "%5s %s %s %s|\n", $1 $2 $3 $name}')
 	line3=""
-	echo  "$dt $tm $call $name |" |  tr -d "\n"
+	echo  "$dt $tm $call $name $country|" |  tr -d "\n"
 #	echo "$line2"
 #	line4=${line3:0:37}
 	line6=$(echo "$line3" | tr -d "\n")
