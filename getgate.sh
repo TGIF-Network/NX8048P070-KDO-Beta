@@ -16,14 +16,14 @@ set -o pipefail
 	fi
 
 	gwa=$(sudo sed -n '/^[ \t]*\[DMR Network\]/,/\[/s/^[ \t]*Address[ \t]*=[ \t]*//p' /etc/mmdvmhost)
-
-
-	if [ "$1" = "0" ]; then
 		if [ "$gwa" = "127.0.0.1" ]; then
 			gw="1"
 		else
 			gw="0"
 		fi
+
+
+	if [ "$1" = "0" ]; then
 		echo "$gw|$gwa|$wl"
 	fi
 
