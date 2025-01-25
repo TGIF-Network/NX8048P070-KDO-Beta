@@ -34,8 +34,11 @@ do
 
 	tm=$(echo "$line" | cut -d' ' -f3)
 	dt=$(echo "$line" | cut -d' ' -f2)
-	tm=${tm:0:5}
+	
+	tm1=$(date -d "${tm:0:-1} UTC" '+%R')
 
+	tm=${tm1:0:5}
+	dt=${dt:5:5}
 	pl=$(echo "$line" | cut -d' ' -f20)
 	tg=$(echo "$line" | cut -d' ' -f17)
 
