@@ -40,6 +40,7 @@ do
 	tm=${tm1:0:5}
 	dt=${dt:5:5}
 	pl=$(echo "$line" | cut -d' ' -f20)
+	dur=$(echo "$line" | cut -d' ' -f18)
 	tg=$(echo "$line" | cut -d' ' -f17)
 
 	echo "Add Call: $call" >> /home/pi-star/lh2_start.txt
@@ -60,7 +61,7 @@ do
 
 #	line3=$(echo  "$dt" "$tm" "$call" "$name" | awk '{printf  "%5s %s %s %s|\n", $1 $2 $3 $name}')
 	line3=""
-	echo  "$dt $tm $call $name $country|" |  tr -d "\n"
+	echo  "$dt $tm $call $name $country |" |  tr -d "\n"
 #	echo "$line2"
 #	line4=${line3:0:37}
 	line6=$(echo "$line3" | tr -d "\n")

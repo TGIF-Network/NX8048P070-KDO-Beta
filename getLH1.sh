@@ -40,7 +40,7 @@ line3=""
 if [ -z "$city" ]; then
 	city="N/A"
 fi
-	echo "$dt|$tm|$mode|$call|$name|$city, $prov, $country|$tg|$pl" 
+	echo "$dt|$tm|$mode|$call|$name|$city, $prov, $country|$tg|$pl|$dur" 
 #| tr -d "\n" 
 }
 ##################################################
@@ -52,12 +52,15 @@ fi
 f1=$(ls -tr /var/log/pi-star/MMDVM* | tail -1)
 list1=$(sudo sed -n '/received network end of voice transmission from/p' $f1 | sed 's/,//g' | tail -1)
 dt=$(echo "$list1" | cut -d " " -f2)
-tm=$(echo "$list1" | cut -d " " -f3)
+tm1=$(echo "$list1" | cut -d " " -f3)
+tm=$(date -d "${tm1:0:-1} UTC" '+%R')
+#echo "$list1"
 tm="${tm:0:8}"
 mode=$(echo "$list1" | cut -d " " -f4)
 call=$(echo "$list1" | cut -d " " -f14)
 tg=$(echo "$list1" | cut -d " " -f17)
 pl=$(echo "$list1" | cut -d " " -f20)
+dur=$(echo "$list1" | cut -d " " -f18)
 #echo "$dt :: $tm :: $mode :: $call"
 
 
