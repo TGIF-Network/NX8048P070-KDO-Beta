@@ -16,7 +16,7 @@ else roption=$1
 fi
 
 #echo "Report Option:" "$roption"
-op="Power Ewport|"
+op="Power Report|"
 
 if [ $roption == $"P" ]; then
         hex=$(vcgencmd get_throttled | awk '{print substr( $0, 11, 200 ) }')
