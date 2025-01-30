@@ -92,6 +92,11 @@ fi
 }
 
 
+function nolhd
+{
+ 	echo "na|na|No Last|Heard|Data|na|na"
+	exit
+}
 
 ##################################################
 
@@ -103,6 +108,10 @@ f1=$(ls -tr /var/log/pi-star/MMDVM* | tail -1)
 #list1=$(sudo sed -n '/received network end of voice transmission from/p' $f1 | sed 's/,//g' | tail -1)
 list1=$(sudo sed -n '/transmission from/p' $f1 | tail -1)
 #echo "$list1"
+
+if [ -z "$list1" ]; then
+   nolhd
+fi
 
 #mode=$(echo "${list1:27:8}" |sed 's/,//g' | cut -d " " -f1)
 mode=$(echo "$list1" | cut -d " " -f4 | sed 's/,//g' )

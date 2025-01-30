@@ -17,6 +17,7 @@ sudo mount -o remount,rw /
 #NXDN
 #POCSAG
 #M17
+sudo /usr/local/etc/clearallmodes.sh
 
 		sudo sed -i '/^\[/h;G;/DMR/s/\(^Enable=\).*/\1'"$2"'/m;P;d' /etc/mmdvmhost
 		sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Enable=\).*/\1'"$2"'/m;P;d' /etc/mmdvmhost
