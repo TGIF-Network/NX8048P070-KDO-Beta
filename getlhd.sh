@@ -94,7 +94,7 @@ fi
 
 function nolhd
 {
- 	echo "na|na|No Last|Heard|Data|na|na"
+ 	echo "na|na|Heard|Data|no Last|na"
 	exit
 }
 
