@@ -7,6 +7,8 @@ set -o errexit
 set -o pipefail
 sudo mount -o remount,rw /
 #echo "Save to Profile"
+args=("$@")
+
 
 dirn=/etc/profiles.ini
 if [ -z "$1" ]; then
@@ -14,7 +16,31 @@ if [ -z "$1" ]; then
 else
     if [ -z "$2" ]; then
           exit
-	else
-		 sudo sed -i '/^\[/h;G;/Profile '"$1"'/s/\('"$2"'=\).*/\1'"$3"'/m;P;d' $dirn     
     fi
+fi
+
+if [ "$1" == "A" ]; then
+	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(RXOffset=\).*/\1'"$3"'/m;P;d' $dirn     
+	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(TXOffset=\).*/\1'"$4"'/m;P;d' $dirn     
+	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(RXFrequency=\).*/\1'"$5"'/m;P;d' $dirn     
+	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(TXFrequency=\).*/\1'"$6"'/m;P;d' $dirn     
+fi
+
+
+if [ "$1" == "B" ]; then
+	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Callsign=\).*/\1'"$3"'/m;P;d' $dirn     
+	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Id=\).*/\1'"$4"'/m;P;d' $dirn     
+	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Address=\).*/\1'"$5"'/m;P;d' $dirn     
+	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Mode=\).*/\1'"$6"'/m;P;d' $dirn     
+fi
+
+if [ "$1" == "C" ]; then
+
+	pw="NA"
+	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Port=\).*/\1'"$3"'/m;P;d' $dirn     
+	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Password=\).*/\1'"$NA"'/m;P;d' $dirn     
+	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Name=\).*/\1'"$5"'/m;P;d' $dirn     
+	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(StartupDstId=\).*/\1'"$6"'/m;P;d' $dirn     
+        echo "$3 - $4 = $5 - $6" > /home/pi-star/profilestest.txt
+
 fi
