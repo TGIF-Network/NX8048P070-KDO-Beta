@@ -28,19 +28,9 @@ fi
 
 
 if [ "$1" == "B" ]; then
-	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Callsign=\).*/\1'"$3"'/m;P;d' $dirn     
-	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Id=\).*/\1'"$4"'/m;P;d' $dirn     
-	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Address=\).*/\1'"$5"'/m;P;d' $dirn     
-	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Mode=\).*/\1'"$6"'/m;P;d' $dirn     
-fi
-
-if [ "$1" == "C" ]; then
-
-	pw="NA"
-	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Port=\).*/\1'"$3"'/m;P;d' $dirn     
-	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Password=\).*/\1'"$NA"'/m;P;d' $dirn     
-	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Name=\).*/\1'"$5"'/m;P;d' $dirn     
+	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Id=\).*/\1'"$3"'/m;P;d' $dirn     
+	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Callsign=\).*/\1'"$4"'/m;P;d' $dirn     
+	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Mode=\).*/\1'"$5"'/m;P;d' $dirn     
 	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(StartupDstId=\).*/\1'"$6"'/m;P;d' $dirn     
-        echo "$3 - $4 = $5 - $6" > /home/pi-star/profilestest.txt
-
 fi
+

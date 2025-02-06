@@ -10,6 +10,7 @@ set -o errexit
 set -o pipefail
 dirn=/etc/profiles.ini
 
+		m0=$(sed -nr "/^\[Profile 0\]/ { :l /^Name[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
 		m1=$(sed -nr "/^\[Profile 1\]/ { :l /^Name[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
 		m2=$(sed -nr "/^\[Profile 2\]/ { :l /^Name[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
 		m3=$(sed -nr "/^\[Profile 3\]/ { :l /^Name[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
@@ -22,6 +23,6 @@ dirn=/etc/profiles.ini
 		m10=$(sed -nr "/^\[Profile 10\]/ { :l /^Name[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
 
 
-               	mt="$m1|$m2|$m3|$m4|$m5|$m6|$m7|$m8|$m9|$m10"
+               	mt="$m0|$m1|$m2|$m3|$m4|$m5|$m6|$m7|$m8|$m9|$m10"
 		echo "$mt"
 
