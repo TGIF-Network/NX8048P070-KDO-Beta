@@ -27,6 +27,7 @@ f1=$(ls -tr /var/log/pi-star/MMDVM* | tail -1)
 list1=$(sudo sed -n '/DMR Slot 2, received/p' $f1 | tail -1)
 netrf=$(echo "$list1" | cut -d " " -f8 )
 hdrend=$(echo "$list1" | cut -d " " -f9 )
+
 #echo "$list1"
 #echo "$netrf|1"
 #echo "$hdrend|1"
@@ -65,6 +66,10 @@ if [ "$netrf" == "network" ]; then
 
 fi
 
+if [ "$hdrend" == "end" ]; then
+        echo "X|X|Listen|Listen|Listen|na|na|na"
+else
+
 
         dataline=$(sudo sed -n "/$call/p" /usr/local/etc/stripped.csv)
         did=$(echo "$dataline" | cut -d',' -f1 | head -1)
@@ -78,13 +83,9 @@ fi
 	if [ -z "$city" ]; then
         	city="N/A"
 	fi
-
-
-
-
 #        echo "$dt|$tm|$mode|$call|$name|$city, $prov, $country|$tg|$pl|$BER"
         echo "$mode|$ve|$call|$name|$city, $prov, $country|$tg|$pl|$BER"
-	
+fi	
 #	domodedmr
 
 sudo mount -o remount,ro /
