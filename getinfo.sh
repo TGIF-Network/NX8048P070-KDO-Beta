@@ -12,7 +12,8 @@ m2=$(sudo cat /etc/pistar-release | head -2 | tail -1 | cut -d '=' -f2 | tr -d '
 m3=$(sudo cat /proc/cpuinfo | head -2 | tail -1 | cut -d ':' -f2 | tr -d '"')
 m4=$(cat /proc/meminfo |head -3 |head -1 | tr -d ' ')
 m5=$(cat /proc/meminfo |head -3 |tail -1 | tr -d ' ')
+m6=$(cat /etc/pistar-release | head -3 | tail -1 | tr -d ' ')
+echo "$m1|$m2|$m3|$m4|$m5|$m6"
 
-echo "$m1|$m2|$m3|$m4|$m5"
 
-
+ cat /etc/pistar-release | head -3 | tail -1 | tr -d ' ' 
