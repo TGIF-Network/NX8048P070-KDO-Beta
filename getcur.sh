@@ -56,7 +56,7 @@ if [ "$netrf" == "network" ]; then
         	tg=$(echo "$list1" | cut -d " " -f17)
         	pl=$(echo "$list1" | cut -d " " -f20)
 	fi
-	if [ "$hdrend" == "voice" ]; then
+	if [ "$hdrend" == "voice" ] ||  [ "$hdrend" == "late" ]; then
   		call=$(echo "$list1" | cut -d " " -f12 )
 		ve="V"
         	tg=$(echo "$list1" | cut -d " " -f15)
