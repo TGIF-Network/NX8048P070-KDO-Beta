@@ -8,13 +8,24 @@
 ############################################################
 set -o errexit
 set -o pipefail
+#Sun  9 Feb 10:13:59 EST 2025
 
  FILE=/usr/local/etc/NX4832K035.tft
+#F1=$(date -r  /usr/local/etc/NX4832K035.tft | sed 's/ /-/g')
+F1=$(date -r  /usr/local/etc/NX4832K035.tft | tr '  ' ' ')
+#m4=$(cat /proc/meminfo |head -3 |head -1 | tr -d ' ')
+
+#echo "$F1"
+dt1=$(date -r /usr/local/etc/NX4832K035.tft | cut -d " " -f3)
+dt2=$(date -r /usr/local/etc/NX4832K035.tft | cut -d " " -f4)
+dt3=$(date -r /usr/local/etc/NX4832K035.tft | cut -d " " -f7)
+dt="$dt3 $dt2  $dt1"
  if [ ! -f "$FILE" ]; then
         # Copy failed
       echo "No TFT File Available to Flash - Try Again"
   else
-   echo "NX4832K035.tft File Found! Proceed!"
+#   echo "NX4832K035.tft \r$dt1 $dt2 $dt3"
+   echo "NX4832K035.tft File Found!\r$dt1 $dt2 $dt3"
 
  fi
 
