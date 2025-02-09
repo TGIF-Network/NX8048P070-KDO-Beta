@@ -19,13 +19,14 @@ F1=$(date -r  /usr/local/etc/NX4832K035.tft | tr '  ' ' ')
 dt1=$(date -r /usr/local/etc/NX4832K035.tft | cut -d " " -f3)
 dt2=$(date -r /usr/local/etc/NX4832K035.tft | cut -d " " -f4)
 dt3=$(date -r /usr/local/etc/NX4832K035.tft | cut -d " " -f7)
+dt4=$(date -r /usr/local/etc/NX4832K035.tft | cut -d " " -f5)
 dt="$dt3 $dt2  $dt1"
  if [ ! -f "$FILE" ]; then
         # Copy failed
       echo "No TFT File Available to Flash - Try Again"
   else
 #   echo "NX4832K035.tft \r$dt1 $dt2 $dt3"
-   echo "NX4832K035.tft File Found!\r$dt1 $dt2 $dt3"
+   echo "NX4832K035.tft File Found!\r$dt1 $dt2 $dt3 $dt4"
 
  fi
 
