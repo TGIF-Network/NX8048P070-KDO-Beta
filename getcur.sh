@@ -73,7 +73,7 @@ else
 
         dataline=$(sudo sed -n "/$call/p" /usr/local/etc/stripped.csv)
         did=$(echo "$dataline" | cut -d',' -f1 | head -1)
-        n1=$(echo "$dataline" | cut -d',' -f3 | head -1)
+        n1=$(echo "$dataline" | cut -d',' -f3 | head -1 )   ##| cut -d ' ' -f1)
         n2=$(echo "$dataline" | cut -d',' -f4 | head -1)
         city=$(echo "$dataline" | cut -d',' -f5 | head -1)
         prov=$(echo "$dataline" | cut -d',' -f6 | head -1)
