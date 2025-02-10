@@ -27,6 +27,9 @@ p6=${args[6]}
 p7=${args[7]}
 p8=${args[8]}
 p9=${args[9]}
+p10=${args[10]}
+p11=${args[11]}
+p12=${args[12]}
 #echo "$p0 $p1 $p2 $p3 $p4 $p5 $p6 $p7 $p8 $p9" 
 sudo mount -o remount,rw /
 
@@ -44,8 +47,10 @@ sudo mount -o remount,rw /
                 sudo sed -i '/^\[/h;G;/NextionDriver/s/\(^WaitForLan=\).*/\1'"$p8"'/m;P;d' /etc/mmdvmhost
                 sudo sed -i '/^\[/h;G;/NextionDriver/s/\(^SleepWhenInactive=\).*/\1'"$p9"'/m;P;d' /etc/mmdvmhost
 
-
-
+                sudo sed -i '/^\[/h;G;/NextionDriver/s/\(^RemoveDim=\).*/\1'"$p10"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/Nextion/s/\(^Brightness=\).*/\1'"$p11"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/NextionDriver/s/\(^IdleBrightness=\).*/\1'"$p12"'/m;P;d' /etc/mmdvmhost
+4
  sudo mmdvmhost.service restart
 sudo nextiondriver.service restart
 sudo mount -o remount,ro /
