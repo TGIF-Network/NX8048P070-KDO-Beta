@@ -20,14 +20,8 @@ dirn=/etc/mmdvmhost
 
 
 		m7=$(sed -nr "/^\[General\]/ { :l /^Duplex[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
-		m8=$(sed -nr "/^\[NextionDriver\]/ { :l /^LogLevel[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
-		m9=$(sed -nr "/^\[NextionDriver\]/ { :l /^WaitForLan[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
-		m10=$(sed -nr "/^\[NextionDriver\]/ { :l /^SleepWhenInactive[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
-		m11=$(sed -nr "/^\[NextionDriver\]/ { :l /^RemoveDim[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
-		m12=$(sed -nr "/^\[Nextion\]/ { :l /^Brightness[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
-		m13=$(sed -nr "/^\[Nextion\]/ { :l /^IdleBrightness[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
 
 
-               	mt="$m1|$m2|$m3|$m4|$m5|$m6|$m7|$m8|$m9|$m10|$m11|$m12|$m13"
+               	mt="$m1|$m2|$m3|$m4|$m5|$m6|$m7"
 		echo "$mt"
 
