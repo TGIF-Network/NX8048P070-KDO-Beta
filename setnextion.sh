@@ -13,7 +13,7 @@ ver="20250210"
 dirn=/etc/profiles.ini
 declare -i pnum
 
-if [ -z "$1" ]; then
+if [ -z "$6" ]; then
         exit
 fi
 args=("$@")
