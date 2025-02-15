@@ -28,7 +28,7 @@ declare -i n
 function domodedmr
 {
 line3=""
-	list1=$(sudo sed -n '/received network end of voice transmission from/p' $f1 | sed 's/,//g' | tail -1)
+	list1=$(sudo sed -n '/end of voice transmission from/p' $f1 | sed 's/,//g' | tail -1)
 
 	call=$(echo "$list1" | cut -d " " -f14)
 	echo "Add Call: $call" >> /home/pi-star/lh2_start.txt
@@ -122,7 +122,7 @@ tm1=$(echo "$list1" | cut -d " " -f3 | cut -d "." -f1)
 tm=$(date -d "${tm1:0:-1} UTC" '+%R')
 
 if [ "$mode" == "DMR" ]; then
-        list1=$(sudo sed -n '/received network end of voice transmission from/p' $f1 | sed 's/,//g' | tail -1)
+        list1=$(sudo sed -n '/end of voice transmission from/p' $f1 | sed 's/,//g' | tail -1)
 	tm1=$(echo "${list1:3:19}")
 #	echo "$tm1"
 #	echo "$tm"
