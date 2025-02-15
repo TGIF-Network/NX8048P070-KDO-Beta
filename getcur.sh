@@ -13,11 +13,10 @@ set -o pipefail
 ######################################
 
 
-#M: 2025-02-03 17:21:36.810 DMR Slot 2, received network voice header from AD2CH to TG 14031665
-#M: 2025-02-03 17:21:40.118 DMR Slot 2, received network end of voice transmission from AD2CH to TG 14031665, 3.4 seconds, 0% packet loss, BER: 0.0%
 #M: 2025-02-03 17:22:00.871 DMR Slot 2, received RF voice header from VE3RD to TG 14031665
 #1                                          7    8    9    10     11   12   13 14   15
 #M: 2025-02-03 17:22:01.279 DMR Slot 2, received RF end of voice transmission from VE3RD to TG 14031665, 0.4 seconds, BER: 0.0%, RSSI: -47/-47/-47 dBm
+#                                           7    8  9   10   11     12         13    14  15 16   17      18    19     20    21    22       23  
 #M: 2025-02-03 17:22:35.041 DMR Slot 2, received network voice header from VE3RIX to TG 14031665
 #M: 2025-02-03 17:22:35.867 DMR Slot 2, received network end of voice transmission from VE3RIX to TG 14031665, 1.2 seconds, 0% packet loss, BER: 0.0%
 #1   2            3          4   5   6     7       8      9  10  11      12         13    14   15 16    17     18   19      20   21    22   23   24   
@@ -38,13 +37,14 @@ if [ "$netrf" == "RF" ]; then
   		tg=$(echo "$list1" | cut -d " " -f17 )
 		ve="E"
 		BER=$(echo "$list1" | cut -d " " -f21)
-
+                pl="na"
 	fi
 	if [ "$hdrend" == "voice" ]; then
   		call=$(echo "$list1" | cut -d " " -f12 )
   		tg=$(echo "$list1" | cut -d " " -f15 )
 		ve="V"
 		BER="na"
+		pl="na"
 	fi
 	mode="R"
 fi
@@ -60,7 +60,7 @@ if [ "$netrf" == "network" ]; then
   		call=$(echo "$list1" | cut -d " " -f12 )
 		ve="V"
         	tg=$(echo "$list1" | cut -d " " -f15)
-		pl=0
+		pl="na"
 	fi
 	mode="N"
 
