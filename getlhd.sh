@@ -196,5 +196,4 @@ if [ "$mode" == "M17" ]; then
         domodedysf
 fi
 
-sudo mount -o remount,ro /
 

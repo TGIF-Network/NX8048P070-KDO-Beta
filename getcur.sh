@@ -88,5 +88,4 @@ else
 fi	
 #	domodedmr
 
-sudo mount -o remount,ro /
 
