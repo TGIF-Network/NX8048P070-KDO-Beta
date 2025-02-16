@@ -26,6 +26,7 @@ f1=$(ls -tr /var/log/pi-star/MMDVM* | tail -1)
 list1=$(sudo sed -n '/DMR Slot 2, received/p' $f1 | tail -1)
 netrf=$(echo "$list1" | cut -d " " -f8 )
 hdrend=$(echo "$list1" | cut -d " " -f9 )
+idle=$(echo "$list1" | cut -d " " -f7 )
 
 #echo "$list1"
 #echo "$netrf|1"
@@ -36,9 +37,10 @@ if [ "$netrf" == "RF" ]; then
   		call=$(echo "$list1" | cut -d " " -f14 )
   		tg=$(echo "$list1" | cut -d " " -f17 )
 		ve="E"
-		BER=$(echo "$list1" | cut -d " " -f21)
+		BER=$(echo "$list1" | cut -d " " -f20)
                 pl="na"
 	fi
+
 	if [ "$hdrend" == "voice" ]; then
   		call=$(echo "$list1" | cut -d " " -f12 )
   		tg=$(echo "$list1" | cut -d " " -f15 )
@@ -55,18 +57,21 @@ if [ "$netrf" == "network" ]; then
 		ve="E"
         	tg=$(echo "$list1" | cut -d " " -f17)
         	pl=$(echo "$list1" | cut -d " " -f20)
+		BER="na"
 	fi
 	if [ "$hdrend" == "voice" ] ||  [ "$hdrend" == "late" ]; then
   		call=$(echo "$list1" | cut -d " " -f12 )
 		ve="V"
         	tg=$(echo "$list1" | cut -d " " -f15)
 		pl="na"
+		BER="na"
 	fi
 	mode="N"
 
 fi
 
-if [ "$hdrend" == "end" ]; then
+#if [ "$hdrend" == "end" ]; then
+if [ "$idle" == "idle" ]; then
         echo "X|X|Listen|Listen|Listen|na|na|na"
 else
 
