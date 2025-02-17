@@ -24,9 +24,10 @@ set -o pipefail
 f1=$(ls -tr /var/log/pi-star/MMDVM* | tail -1)
 #list1=$(sudo sed -n '/received network/p' $f1 | sed 's/,//g' | tail -1)
 list1=$(sudo sed -n '/DMR Slot 2, received/p' $f1 | tail -1)
+list2=$(sudo sed -n '/M:/p' $f1 | tail -1)
 netrf=$(echo "$list1" | cut -d " " -f8 )
 hdrend=$(echo "$list1" | cut -d " " -f9 )
-idle=$(echo "$list1" | cut -d " " -f7 )
+idle=$(echo "$list2" | cut -d " " -f7 )
 
 #echo "$list1"
 #echo "$netrf|1"
@@ -70,8 +71,9 @@ if [ "$netrf" == "network" ]; then
 
 fi
 
+#echo "$idle"
 #if [ "$hdrend" == "end" ]; then
-if [ "$idle" == "idle" ]; then
+if [ "$idle" == "Idle" ]; then
         echo "X|X|Listen|Listen|Listen|na|na|na"
 else
 
