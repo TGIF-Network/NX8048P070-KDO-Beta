@@ -23,7 +23,7 @@ set -o pipefail
 
 f1=$(ls -tr /var/log/pi-star/MMDVM* | tail -1)
 #list1=$(sudo sed -n '/received network/p' $f1 | sed 's/,//g' | tail -1)
-list1=$(sudo sed -n '/DMR Slot 2, received/p' $f1 | tail -1)
+list1=$(sudo sed -n '/DMR Slot 2, received/p' $f1 | tail -1 | tr -d ',')
 list2=$(sudo sed -n '/M:/p' $f1 | tail -1)
 netrf=$(echo "$list1" | cut -d " " -f8 )
 hdrend=$(echo "$list1" | cut -d " " -f9 )
@@ -78,7 +78,7 @@ if [ "$idle" == "Idle" ]; then
 else
 
 
-        dataline=$(sudo sed -n "/$call/p" /usr/local/etc/stripped.csv)
+        dataline=$(sudo sed -n "/$call,/p" /usr/local/etc/stripped.csv)
         did=$(echo "$dataline" | cut -d',' -f1 | head -1)
         n1=$(echo "$dataline" | cut -d',' -f3 | head -1 )   ##| cut -d ' ' -f1)
         n2=$(echo "$dataline" | cut -d',' -f4 | head -1)

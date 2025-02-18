@@ -32,7 +32,7 @@ line3=""
 
 	call=$(echo "$list1" | cut -d " " -f14)
 	echo "Add Call: $call" >> /home/pi-star/lh2_start.txt
-	dataline=$(sudo sed -n "/$call/p" /usr/local/etc/stripped.csv)
+	dataline=$(sudo sed -n "/$call,/p" /usr/local/etc/stripped.csv)
        	did=$(echo "$dataline" | cut -d',' -f1 | head -1)
         n1=$(echo "$dataline" | cut -d',' -f3 | head -1)
         n2=$(echo "$dataline" | cut -d',' -f4 | head -1)
@@ -172,7 +172,7 @@ if [ "$mode" == "D-Star" ]; then
 fi
 
 if [ "$mode" == "YSF" ]; then
-        list1=$(sudo sed -n '/received network end of transmission from/p' $f1 | sed 's/,//g' | tail -1)
+        list1=$(sudo sed -n '/received network end of transmission from/p' $f1 | sed 's/,//g' | tail -1 | tr -d ',')
         call=$(echo "$list1" | cut -d " " -f11)
 	pl=$(echo "$list1" | cut -d " " -f22)
 #        echo "$mode: $Call"
@@ -182,7 +182,7 @@ if [ "$mode" == "YSF" ]; then
 	domodedysf
 fi
 if [ "$mode" == "NXDN" ]; then
-        list1=$(sudo sed -n '/received network end of transmission from/p' $f1 | sed 's/,//g' | tail -1)
+        list1=$(sudo sed -n '/received network end of transmission from/p' $f1 | sed 's/,//g' | tail -1 | tr -d ',')
         call=$(echo "$list1" | cut -d " " -f11)
         pl=$(echo "$list1" | cut -d " " -f19)
 #        echo "$mode: $Call"
