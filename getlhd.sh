@@ -121,7 +121,9 @@ tm1=$(echo "$list1" | cut -d " " -f3 | cut -d "." -f1)
 #echo "$mode"
 tm=$(date -d "${tm1:0:-1} UTC" '+%R')
 
+
 if [ "$mode" == "DMR" ]; then
+
         list1=$(sudo sed -n '/end of voice transmission from/p' $f1 | sed 's/,//g' | tail -1)
 	tm1=$(echo "${list1:3:19}")
 #	echo "$tm1"
@@ -130,25 +132,38 @@ if [ "$mode" == "DMR" ]; then
         call=$(echo "$list1" | cut -d " " -f14)
         echo "Add Call: $call" >> /home/pi-star/lh2_start.txt
         dataline=$(sudo sed -n "/$call/p" /usr/local/etc/stripped.csv)
-        did=$(echo "$dataline" | cut -d',' -f1 | head -1)
-        n1=$(echo "$dataline" | cut -d',' -f3 | head -1)
-        n2=$(echo "$dataline" | cut -d',' -f4 | head -1)
-        city=$(echo "$dataline" | cut -d',' -f5 | head -1)
-        prov=$(echo "$dataline" | cut -d',' -f6 | head -1)
-        country=$(echo "$dataline" | cut -d',' -f7 | head -1)
-        tg=$(echo "$list1" | cut -d " " -f17)
-        pl=$(echo "$list1" | cut -d " " -f20)
-        name="$n1"
-	BER=$(echo "$list1" | cut -d " " -f24)
-	rx=$(echo "$list1" | cut -d " " -f8)
-	if [ "$rx" == "$RF" ]; then
+
+        	did=$(echo "$dataline" | cut -d',' -f1 | head -1)
+        	n1=$(echo "$dataline" | cut -d',' -f3 | head -1)
+        	n2=$(echo "$dataline" | cut -d',' -f4 | head -1)
+        	city=$(echo "$dataline" | cut -d',' -f5 | head -1)
+        	prov=$(echo "$dataline" | cut -d',' -f6 | head -1)
+        	country=$(echo "$dataline" | cut -d',' -f7 | head -1)
+
+	rfnet=$(echo "$list1" | cut -d " " -f8)
+
+#M: 2025-02-20 00:20:56.125 DMR Slot 2, received network end of voice transmission from VE3RD to TG 14031665, 0.5 seconds, 0% packet loss, BER: 0.0%
+
+	if [ "$rfnet" == "network" ]; then
+
+        	tg=$(echo "$list1" | cut -d " " -f17)
+        	pl=$(echo "$list1" | cut -d " " -f20)
+        	name="$n1"
+		rx=$(echo "$list1" | cut -d " " -f8)
+		BER=$(echo "$list1" | cut -d " " -f24)
+	fi
+#M: 2025-02-20 00:25:13.268 DMR Slot 2, received RF end of voice transmission from VE3RD to TG 14030200, 9.0 seconds, BER: 0.7%, RSSI: -47/-47/-47 dBm
+
+	if [ "$rfnet" == "RF" ]; then
+        	tg=$(echo "$list1" | cut -d " " -f17)
+        	name="$n1"
+		rx=$(echo "$list1" | cut -d " " -f8)
 		pl="N/A"
 		BER=$(echo "$list1" | cut -d " " -f21)
 	fi
 
 #M: 2025-01-17 23:19:06.311 DMR Slot 2, received RF end of voice transmission from VE3RD to TG 14031665, 1.1 seconds, BER: 0.4%, RSSI: -47/-47/-47 dBm
 #M: 2025-01-17 23:19:35.377 DMR Slot 2, received network end of voice transmission from VE3RD to TG 14031665, 0.5 seconds, 0% packet loss, BER: 0.0%
-
 
 	if [ -z "$city" ]; then
         	city="N/A"
