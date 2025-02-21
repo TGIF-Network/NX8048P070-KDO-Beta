@@ -17,7 +17,7 @@ if [ -n "$(ls -A /var/log/pi-star/MM* 2>/dev/null)" ]; then
 #  echo "$nMode"
   result="Starting"
 
-  if [[ ! "$nMode" =~ ^(DMR|P25|YSF|NXDN)$ ]]; then
+  if [[ ! "$nMode" =~ ^(D-Star|DMR|P25|YSF|NXDN|M17)$ ]]; then
 	echo "NA|NA|NA"
 	exit
     
@@ -73,6 +73,8 @@ if [ -n "$(ls -A /var/log/pi-star/MM* 2>/dev/null)" ]; then
 		echo "tg-$tg"
 		server=$(grep "$tg" /usr/local/etc/NXDNHosts.txt |  tr '\t' ' ' | cut -d " " -f2 | cut -d "." -f1 | tr '[:lower:]' '[:upper:]')
 		result=$(echo "NXDN $tg")
+     elif [ "$nMode" == "D-Star" ]; then
+		echo "D-Star"
       fi
 
 	echo "$result"

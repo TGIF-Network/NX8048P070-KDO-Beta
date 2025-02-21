@@ -15,9 +15,9 @@ if [ -n "$(ls -A /var/log/pi-star/MM* 2>/dev/null)" ]; then
   #echo "$line"
   nMode=$(echo "$line" | cut -d " " -f 4 | cut -d "," -f 1)
 #  echo "$nMode"
-  result="Starting"
+#  result="Starting"
 
-  if [[ ! "$nMode" =~ ^(DMR|P25|YSF|NXDN)$ ]]; then
+  if [[ ! "$nMode" =~ ^(D-Star|DMR|P25|YSF|NXDN|M17)$ ]]; then
 	echo "NA|NA|NA"
 	exit
     
@@ -68,14 +68,21 @@ if [ -n "$(ls -A /var/log/pi-star/MM* 2>/dev/null)" ]; then
 	
 
      elif [ "$nMode" == "NXDN" ]; then
-		echo "Mode=NXDN"
+	#	echo "Mode=NXDN"
 		tg=$(sed -nr "/^\[Network\]/ { :l /^Static[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" /etc/nxdngateway)
 		echo "tg-$tg"
 		server=$(grep "$tg" /usr/local/etc/NXDNHosts.txt |  tr '\t' ' ' | cut -d " " -f2 | cut -d "." -f1 | tr '[:lower:]' '[:upper:]')
 		result=$(echo "NXDN|$tg|NA")
-      fi
 
-	echo "$result"
+     elif [ "$nMode" == "D-Star" ]; then
+                echo "D-Star"
+    fi
+
+#        call=$(echo "$list1" | cut -d " " -f14)
+#        echo "Add Call: $call" >> /home/pi-star/lh2_start.txt
+#        dataline=$(sudo sed -n "/$call,/p" /usr/local/etc/stripped.csv)
+#        did=$(echo "$dataline" | cut -d',' -f1 | head -1)
+#	echo "$result"
 
 else   
     echo "StartUp"
