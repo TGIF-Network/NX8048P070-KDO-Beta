@@ -183,17 +183,14 @@ if [ "$mode" == "D-Star" ]; then
 	tg2=$(echo "$list2" | cut -d " " -f19)
 	tg1=$(echo "$list2" | cut -d " " -f20)
 	tg="$tg2 $tg1"
-	echo "$tg"
+#	echo "$tg"
 #M: 2025-02-22 21:35:22.036 D-Star link status set to "Linked to REF066 D  "
 	list3=$(sudo sed -n '/D-Star link status set to/p' $f1 | sed 's/,//g' | sed 's/"//g' | tail -1 | tr '  ' ' ')
-echo "$list3"
+#echo "$list3"
 	tg2=$(echo "$list3" | cut -d " " -f11)
 	tg1=$(echo "$list3" | cut -d " " -f12)
 	tg="$tg2 $tg1"
-	echo "$tg"
-
-
-
+#	echo "$tg"
 #	echo "$mode: $Call"
 	domodedstar
 fi
