@@ -172,15 +172,27 @@ if [ "$mode" == "DMR" ]; then
 	
 #	domodedmr
 fi
+#M: 2025-02-22 20:03:46.111 D-Star, received network header from K4WZV   /     to CQCQCQ   via REF066 D
+
 if [ "$mode" == "D-Star" ]; then
 	list1=$(sudo sed -n '/received network end of transmission from/p' $f1 | sed 's/,//g' | tail -1)
 	call=$(echo "$list1" | cut -d " " -f11)
 	pl=$(echo "$list1" | cut -d " " -f19)
 
-	list2=$(sudo sed -n '/end of transmission/p' $f1 | sed 's/,//g' | tail -1)
-	tg2=$(echo "$list2" | cut -d " " -f15)
-	tg1=$(echo "$list2" | cut -d " " -f14)
+	list2=$(sudo sed -n '/received network header from/p' $f1 | sed 's/,//g' | tail -1)
+	tg2=$(echo "$list2" | cut -d " " -f19)
+	tg1=$(echo "$list2" | cut -d " " -f20)
 	tg="$tg2 $tg1"
+	echo "$tg"
+#M: 2025-02-22 21:35:22.036 D-Star link status set to "Linked to REF066 D  "
+	list3=$(sudo sed -n '/D-Star link status set to/p' $f1 | sed 's/,//g' | sed 's/"//g' | tail -1 | tr '  ' ' ')
+echo "$list3"
+	tg2=$(echo "$list3" | cut -d " " -f11)
+	tg1=$(echo "$list3" | cut -d " " -f12)
+	tg="$tg2 $tg1"
+	echo "$tg"
+
+
 
 #	echo "$mode: $Call"
 	domodedstar
