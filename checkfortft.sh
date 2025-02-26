@@ -27,7 +27,7 @@ dt="$dt3 $dt2  $dt1"
       echo "No TFT File Available to Flash - Try Again"
   else
 #   echo "NX4832K035.tft \r$dt1 $dt2 $dt3"
-   echo "NX4832K035.tft File Found!\r$dt0 $dt1 $dt2 $dt3 $dt4"
+   echo " NX4832K035.tft File Found!\r $dt0 $dt1 $dt2 $dt3$dt4"
 
  fi
 
