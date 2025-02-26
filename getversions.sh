@@ -7,8 +7,10 @@
 set -o errexit
 set -o pipefail
 
-m1=$(sudo MMDVMHost -v | cut -d ' ' -f3,5)
-m2=$(sudo DMRGateway -v | cut -d ' ' -f3,5)
+m1=$(sudo MMDVMHost -v | cut -d ' ' -f3)
+m1a=$(sudo MMDVMHost -v | cut -d ' ' -f5)
+m2=$(sudo DMRGateway -v | cut -d ' ' -f3)
+m2a=$(sudo DMRGateway -v | cut -d ' ' -f5)
 m3=$(sudo NextionDriver -V | tr '\n' ' A' | cut -d ' ' -f4 | tr '\n' ' ')
-echo "$m1|$m2|$m3"
+echo "$m1\r$m1a|$m2\r$m2a|$m3"
 
