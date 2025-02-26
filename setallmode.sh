@@ -10,20 +10,21 @@ set -o pipefail
 # Check all six modes and set each one to either 0 or 1
 
 sudo mount -o remount,rw /
-#DMR
-#D-Star
-#YSF
-#P25
-#NXDN
-#POCSAG
-#M17
-sudo /usr/local/etc/clearallmodes.sh
+#1DMR
+#2D-Star
+#3YSF
+#4P25
+#5NXDN
+#6POCSAG
+#7M17
 
-		sudo sed -i '/^\[/h;G;/DMR/s/\(^Enable=\).*/\1'"$2"'/m;P;d' /etc/mmdvmhost
-		sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Enable=\).*/\1'"$2"'/m;P;d' /etc/mmdvmhost
+sudo /usr/local/etc/Nextion_Support/clearallmodes.sh
 
-		sudo sed -i '/^\[/h;G;/D-Star/s/\(^Enable=\).*/\1'"$1"'/m;P;d' /etc/mmdvmhost
-		sudo sed -i '/^\[/h;G;/D-Star Network/s/\(^Enable=\).*/\1'"$1"'/m;P;d' /etc/mmdvmhost
+		sudo sed -i '/^\[/h;G;/DMR/s/\(^Enable=\).*/\1'"$1"'/m;P;d' /etc/mmdvmhost
+		sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Enable=\).*/\1'"$1"'/m;P;d' /etc/mmdvmhost
+
+		sudo sed -i '/^\[/h;G;/D-Star/s/\(^Enable=\).*/\1'"$2"'/m;P;d' /etc/mmdvmhost
+		sudo sed -i '/^\[/h;G;/D-Star Network/s/\(^Enable=\).*/\1'"$2"'/m;P;d' /etc/mmdvmhost
 
 		sudo sed -i '/^\[/h;G;/System Fusion/s/\(^Enable=\).*/\1'"$3"'/m;P;d' /etc/mmdvmhost
 		sudo sed -i '/^\[/h;G;/System Fusion Network/s/\(^Enable=\).*/\1'"$3"'/m;P;d' /etc/mmdvmhost
