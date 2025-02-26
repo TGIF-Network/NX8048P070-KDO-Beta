@@ -8,10 +8,12 @@
 # Use passed TS if present or default to TS2 (zero based code=1)
 # Enhanced to work when the DMRGateway is used.
 
-if [ -z "$1" ]; then
+if [ -z "$2" ]; then
 TS="1"
+TG="31665"
 else
-TS=$1
+TS="$1"
+TG="$2"
 fi
 TG=31665
 
@@ -62,10 +64,8 @@ function CheckMode {
 
 # Run Function CheckMode to find correct DGId
 CheckMode
-TG=31665
-TS=1
 ## Main script starts here
-curl -s http://tgif.network:5040/api/sessions/update/$ID/$TS/$TG
+curl -s http://tgif.network:5040/api/sessions/update/"$ID"/"$TS"/"$TG"
 ## To check arquments being passed to command take off the ## in front of echo below
 # echo curl -s http://tgif.network:5040/api/sessions/update/$ID/$TS/$TG
 printf "\n"
