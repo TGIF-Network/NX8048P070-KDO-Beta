@@ -37,7 +37,8 @@ sudo mount -o remount,rw /
                 sudo sed -i '/^\[/h;G;/General/s/\(^Callsign=\).*/\1'"$p5"'/m;P;d' /etc/mmdvmhost
                 sudo sed -i '/^\[/h;G;/General/s/\(^Duplex=\).*/\1'"$p6"'/m;P;d' /etc/mmdvmhost
 
+
 sudo mmdvmhost.service restart
-sudo nextiondriver.service restart
+sleep 10
 sudo mount -o remount,ro /
 
