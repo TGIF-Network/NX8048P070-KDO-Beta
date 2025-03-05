@@ -32,7 +32,8 @@ dtt=$(stat /usr/local/etc/NX4832K035.tft | grep Birth | cut -d '.' -f1 | cut -d 
   else
 #   echo "NX4832K035.tft \r$dt1 $dt2 $dt3"
 #   echo "NX4832K035.tft File Found!\r$dt0 $dt1 $dt2 $dt3$dt4"
-   echo "NX4832K035.tft File Found!\r $dtt $dt4"
+   echo "NX4832K035.tft File Found!\r $dtt"
+#   echo "NX4832K035.tft File Found!\r $dt4"
 
  fi
 
