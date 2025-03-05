@@ -85,6 +85,6 @@ case $m9 in
     ;;
 esac
 
-               	mt="0|Pi-Star|$m1|$m2|$m3|$m4|$m5|$m6|$m7|$m8|$m9|$m10|$m11"
+               	mt="0|Pi-Star|$m1|$m2|$m3|$m4|$m5|$m6|$m7|$m8|$m9|$m10|$m11|n/a"
 		echo "$mt"
 
