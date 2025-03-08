@@ -27,6 +27,26 @@ declare -i n
 function domode3
 {
 line3=""
+        mode=$(echo "$list1"| cut -d ' ' -f 4 | tr -d ',')
+
+if [ "$mode" == "DMR" ]; then
+        call=$(echo "$list1" | cut -d' ' -f14)
+fi
+if [ "$mode" == "D-Star" ]; then
+        call=$(echo "$list1" | cut -d' ' -f11)
+fi
+if [ "$mode" == "P25" ]; then
+        call=$(echo "$list1" | cut -d' ' -f9)
+fi
+if [ "$mode" == "NXDN" ]; then
+        call=$(echo "$list1" | cut -d' ' -f11)
+fi
+if [ "$mode" == "M17" ]; then
+        call=$(echo "$list1" | cut -d' ' -f11)
+fi
+if [ "$mode" == "YSF" ]; then
+        call=$(echo "$list1" | cut -d' ' -f11)
+fi
 	echo "Add Call: $call" >> /home/pi-star/lh2_start.txt
 	dataline=$(sudo sed -n "/$call/p" /usr/local/etc/stripped.csv)
        	did=$(echo "$dataline" | cut -d',' -f1 | head -1)
@@ -50,7 +70,8 @@ fi
 ######################################
 
 f1=$(ls -tr /var/log/pi-star/MMDVM* | tail -1)
-list1=$(sudo sed -n '/received network end of voice transmission from/p' $f1 | sed 's/,//g' | tail -1)
+list1=$(sudo sed -n '/received network end of transmission from/p' $f1 | sed 's/,//g' | tail -1)
+#echo "$list1"
 dt=$(echo "$list1" | cut -d " " -f2)
 tm1=$(echo "$list1" | cut -d " " -f3)
 tm=$(date -d "${tm1:0:-1} UTC" '+%R')
@@ -62,7 +83,6 @@ tg=$(echo "$list1" | cut -d " " -f17)
 pl=$(echo "$list1" | cut -d " " -f20)
 dur=$(echo "$list1" | cut -d " " -f18)
 #echo "$dt :: $tm :: $mode :: $call"
-
 
 	domode3
 
