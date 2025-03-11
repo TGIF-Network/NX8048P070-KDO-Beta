@@ -3,7 +3,7 @@
 #  Get Last Heard Liost from MMDVMHost Log	#
 #						#
 #						#
-#  VE3RD 			2020-05-03	#
+#  VE3RD 			2025-03-11	#
 #################################################
 set -o errexit
 set -o pipefail
@@ -22,7 +22,6 @@ name=""
 pl=""
 
 declare -i n
-####################################################
 ##########################################################
 function getcall
 {
@@ -69,14 +68,9 @@ fi
 	echo "$dt|$tm|$mode|$call|$name|$city, $prov, $country|$tg|$pl|$dur" 
 #| tr -d "\n" 
 }
-##################################################
 
-######################################
-#Start of Main Program
-######################################
-
-f1=$(ls -tr /var/log/pi-star/MMDVM* | tail -1)
-list1=$(sudo sed -n '/transmission from/p' $f1 | sed 's/,//g' | tail -1)
+function GetDetail
+{
 #echo "$list1"
 dt=$(echo "$list1" | cut -d " " -f2)
 tm1=$(echo "$list1" | cut -d " " -f3)
@@ -96,11 +90,26 @@ pl=$(echo "$list1" | cut -d " " -f20)
 dur=$(echo "$list1" | cut -d " " -f18)
 #echo "$dt :: $tm :: $mode :: $call"
 
+}
+##################################################
+
+######################################
+#Start of Main Program
+######################################
+
 
 if [ -z "$1" ]; then
-getcall
+	getcall
+	f1=$(ls -tr /var/log/pi-star/MMDVM* | tail -1)
+	list1=$(sudo sed -n '/transmission from/p' $f1 | sed 's/,//g' | tail -1)
+	GetDetail
 else
-call="$1"
+	call="$1"
+	f1=$(ls -tr /var/log/pi-star/MMDVM* | tail -1)
+	list1=$(sudo sed -n '/'"$1"'/p' $f1 | sed 's/,//g' | tail -1)
+
+#	echo "$list1"
+	GetDetail
 fi
 #echo "$call"
 

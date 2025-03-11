@@ -105,6 +105,8 @@ f1=$(ls -tr /var/log/pi-star/MMDVM* | tail -1)
 #list1=$(sudo sed -n '/received network end of voice transmission from/p' $f1 | tail -n 50 | sort -r -k15 -u |tail -n8)
 #list1=$(cat /var/log/pi-star/MMDVM* | grep "end of transmission from" | tail -16 | sort -u -k15 | sort -k3 | tail -n20)
 list1=$(cat /var/log/pi-star/MMDVM* | grep "transmission from" | tail -16 | sort -u -k15 | sort -k3 | tail -n20)
+list1=$(tail -n 100 /var/log/pi-star/MM* | grep 'transmission from' | sort -u -t, -k1,13 -k1,4 | tail -n 8)
+
 #echo "5 $list1"
 #echo "  "
 line=$(echo "$list1" | tail -n8)
@@ -112,28 +114,4 @@ line=$(echo "$list1" | tail -n8)
 	domode2
 
 #sudo mount -o remount,ro /
-exit
-
-
-
-
-
-
-#list3=$(echo "$list1" | awk '$14!=savestr {print substr($2,6,5),substr($3,0,6),$14,$17,$6,$18,$20; savestr=$14}' | sort -u -r -k1,2 | tail -8)
-#echo "$list3"
-
-#list3=$(echo "$list1" | awk '$14!=savestr {print substr($2,6,5),substr($3,0,6),$14,$17,$6,$18,$20; savestr=$14}' | sort -u -r -k2,2 | tail -8)
-#echo "$list3"
-#list4=$(echo "$list3" | sort -u -k2)
-#echo  "4 - $list4"
-#lcnt=$(echo "$list3" | wc -l)
-#if [ $lcnt -lt 20 ]; then
-#	list3+=$list4
-#fi
-#  echo "Test1234 | Test 2345 | TestTest\r |12345678"
-
-#echo "$list3"
-
-#echo "$list3" | sed -n '1,8p;9q' |  awk '{printf "%5s %5s %7s %6s %1s %4s %-4s|\n", $1, $2, $3, $4, $5, $6, $7}' | tr -d "\n | tail -8"
-#list9=$(echo "$list1" | sed -n '1,6p;7q' | awk '{print $1, $2, $3, $4}' )
 
