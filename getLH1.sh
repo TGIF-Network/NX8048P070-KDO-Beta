@@ -9,12 +9,12 @@ set -o errexit
 set -o pipefail
 sudo mount -o remount,rw /
 
-if [ -f /home/pi-star/lh2_start.txt ]; then
-  rm /home/pi-star/lh2_start.txt
-fi
-if [ -f /home/pi-star/lhlog.txt ]; then
-  rm /home/pi-star/lhlog.txt
-fi
+#if [ -f /home/pi-star/lh2_start.txt ]; then
+#  rm /home/pi-star/lh2_start.txt
+#fi
+#if [ -f /home/pi-star/lhlog.txt ]; then
+#  rm /home/pi-star/lhlog.txt
+#fi
 
 echo "Args = $@" >> /home/pi-star/lh2_start.txt
 

@@ -104,8 +104,9 @@ var="${list5:0:400}"
 f1=$(ls -tr /var/log/pi-star/MMDVM* | tail -1)
 #list1=$(sudo sed -n '/received network end of voice transmission from/p' $f1 | tail -n 50 | sort -r -k15 -u |tail -n8)
 #list1=$(cat /var/log/pi-star/MMDVM* | grep "end of transmission from" | tail -16 | sort -u -k15 | sort -k3 | tail -n20)
-list1=$(cat /var/log/pi-star/MMDVM* | grep "transmission from" | tail -16 | sort -u -k15 | sort -k3 | tail -n20)
-list1=$(tail -n 100 /var/log/pi-star/MM* | grep 'transmission from' | sort -u -t, -k1,13 -k1,4 | tail -n 8)
+#list1=$(cat /var/log/pi-star/MMDVM* | grep "transmission from" | tail -16 | sort -u -k15 | sort -k3 | tail -n20)
+#list1=$(tail -n 100 /var/log/pi-star/MM* | grep 'transmission from' | sort -u -t, -k1,13 -k1,4 | tail -n 8)
+list1=$(tail -n 100 /var/log/pi-star/MM* | grep 'transmission from' |  awk '!seen[$14]++' | sort -k3n)
 
 #echo "5 $list1"
 #echo "  "
