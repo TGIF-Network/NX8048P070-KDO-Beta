@@ -38,8 +38,9 @@ network={
         psk="${psk}"
         key_mgmt=WPA-PSK
         id_str="0"
-        priority=100
+        priority=90
         }
+
 EOL
 
 status=$?
@@ -75,3 +76,33 @@ else
 echo "Supplicant file was not created!"
 fi
 fi
+
+
+
+###########################
+#sudo mount -o remount,rw /boot
+sudo mount -o remount,rw /
+sleep 1s
+#sudo cp /usr/local/etc/Nextion_Support/wpa_supplicant.conf /boot/wpa_supplicant.conf
+sudo cp /usr/local/etc/Nextion_Support/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
+status=$?
+
+if test $status -eq 0
+then
+        echo "Supplicant copy OK!"
+
+else
+        sudo mount -o remount,rw /
+        sleep 1s
+#        sudo cp /usr/local/etc/Nextion_Support/wpa_supplicant.conf /boot/wpa_supplicant
+        sudo cp /usr/local/etc/Nextion_Support/wpa_supplicant.conf /etc/wpa_supplicant/wpa_supplicant.conf
+        status-$?
+        if test $status -eq 0
+        then
+        echo "Second attempt to copy Supplicant OK!"
+        else
+        echo "Second attempt to copy Supplicant failed!"
+        fi
+fi
+sudo mount -o remount,ro /
+
