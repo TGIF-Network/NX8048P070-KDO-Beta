@@ -93,83 +93,8 @@ fi
 	
 	#sudo mmdvmhost.service restart
 
-
+ sudo nextiondriver.service restart
+sleep 3
  sudo mmdvmhost.service restart
 sudo mount -o remount,ro /
-
-exit
-
-
-if [ "$m9" == "D-Star" ]; then
-
-
-fi
-
-if [ "$m9" == "DMR" ]; then
-
-
-fi
-
-if [ "$m9" == "DMRG" ]; then
-
-
-fi
-
-if [ "$m9" == "YSF" ]; then
-
-
-fi
-
-if [ "$m9" == "NXDN" ]; then
-
-
-fi
-
-if [ "$m9" == "P25" ]; then
-
-
-fi
-
-if [ "$m9" == "M17" ]; then
-
-
-fi
-
-if [ "$m9" == "YSF2DMR" ]; then
-
-
-fi
-
-if [ "$m9" == "YSF2NXDN" ]; then
-
-
-fi
-
-if [ "$m9" == "YSF2P25" ]; then
-
-
-fi
-
-if [ "$m9" == "DMR2YSF" ]; then
-
-
-fi
-
-if [ "$m9" == "DMR2YSF-G" ]; then
-
-
-fi
-
-if [ "$m9" == "DMR2NXDN" ]; then
-
-
-fi
-
-if [ "$m9" == "DMR2NXDN-G" ]; then
-
-
-fi
-
-
-
 
