@@ -42,7 +42,7 @@ sudo mount -o remount,rw /
                 sudo sed -i '/^\[/h;G;/DMR Network 3/s/\(^Enabled=\).*/\11/m;P;d' /etc/dmrgateway
                 sudo sed -i '/^\[/h;G;/DMR Network 3/s/\(^TGRewrite0=\).*/\1'"2,13000001,2,1,999998"'/m;P;d' /etc/dmrgateway
 
-                sudo sed -i '/^\[/h;G;/Network/s/\(^Startup=\).*/\1'"US-America-Link"'/m;P;d' /etc/NXDNgateway
+                sudo sed -i '/^\[/h;G;/Network/s/\(^Startup=\).*/\1'"US-America-Link"'/m;P;d' /etc/nxdngateway
 
                 sudo sed -i '/^\[/h;G;/DMR Network 3/s/\(^Name=\).*/\1'"DMR2NXDN Crossover"'/m;P;d' /etc/dmrgateway
                 sudo sed -i '/^\[/h;G;/DMR Network 3/s/\(^Address=\).*/\1'"127.0.0.1"'/m;P;d' /etc/dmrgateway
@@ -62,8 +62,8 @@ sudo mount -o remount,rw /
 
 
 		sudo /usr/local/sbin/mmdvmhost.service start  > /dev/null
-                sudo /usr/local/sbin/dmr2NXDN.service restart > /dev/null
-                sudo /usr/local/sbin/NXDNgateway.service restart > /dev/null
+                sudo /usr/local/sbin/dmr2nxdn.service restart > /dev/null
+                sudo /usr/local/sbin/nxdngateway.service restart > /dev/null
                 sudo /usr/local/sbin/dmrgateway.service restart > /dev/null
 		echo "Setting DMRgateway OFF DMR2NXDN ON"
 	fi
