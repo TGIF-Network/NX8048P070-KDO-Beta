@@ -12,6 +12,8 @@ set -o pipefail
 
 args=("$@")
 sudo mount -o remount,rw /
+m1=$(sed -nr "/^\[General\]/ { :1 /^Id[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b 1;}" /etc/mmdvmhost)
+m2=$(sed -nr "/^\[Profile 0\]/ { :1 /^WhiteList[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b 1;}" /etc/profiles.ini)
 
 # Parameter List
 #1) 1-On 0-Off to TGIF
@@ -39,7 +41,7 @@ p8=0
 function setinputs
 {
 p7="0"
-m1=$(sed -nr "/^\[General\]/ { :1 /^Id[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b 1;}" /etc/mmdvmhost)
+
 p1=${args[0]}    # Cross mode On/Off
 p2=${args[1]}	#Wires=x On/Off
 p3=62031	#Port
@@ -71,7 +73,7 @@ else
 fi
 
 sudo mount -o remount,rw /
-#sudo /usr/local/sbin/mmdvmhost.service stop 
+sudo /usr/local/sbin/mmdvmhost.service stop 
 
 sudo /usr/local/etc/Nextion_Support/clearallmodes.sh
 
@@ -120,7 +122,8 @@ sudo mount -o remount,rw /
         		sudo sed -i '/^\[/h;G;/DMR/s/\(Enable=\).*/\11/m;P;d' /etc/mmdvmhost
         		sudo sed -i '/^\[/h;G;/DMR Network/s/\(Enable=\).*/\11/m;P;d' /etc/mmdvmhost
 
-        		sudo sed -i '/^\[/h;G;/DMR/s/\(^Id=\).*/\1'"$p601"'/m;P;d' /etc/mmdvmhost
+        		sudo sed -i '/^\[/h;G;/DMR/s/\(^Id=\).*/\1'"$p6"'/m;P;d' /etc/mmdvmhost
+        		sudo sed -i '/^\[/h;G;/DMR/s/\(^WhiteList=\).*/\1'"$m2"'/m;P;d' /etc/mmdvmhost
         		sudo sed -i '/^\[/h;G;/DMR Network/s/\(Port=\).*/\1'"$p3"'/m;P;d' /etc/mmdvmhost
         		sudo sed -i '/^\[/h;G;/DMR Network/s/\(Local=\).*/\1'"$p3"'/m;P;d' /etc/mmdvmhost
 		
@@ -145,5 +148,3 @@ sudo /usr/local/sbin/ysf2dmr.service restart  > /dev/null
  
 echo "Done" >> /home/pi-star/ysf2dmr.log
 sudo mount -o remount,ro /
-
-
