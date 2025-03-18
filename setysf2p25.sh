@@ -25,8 +25,8 @@ else
 
 		p1="$1" # Enable
 		p2="$2" # P25 TG 10210
-		p3="$3" # P25 Address mnet.hopto.org
-		p4="$4" # P25 Port 41000
+##		p3="$3" # P25 Address mnet.hopto.org
+##		p4="$4" # P25 Port 41000
 p2=10210
 p3=mnet.hopto.org
 p4=41000
