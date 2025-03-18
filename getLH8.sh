@@ -103,7 +103,9 @@ var="${list5:0:400}"
 
 f1=$(ls -tr /var/log/pi-star/MMDVM* | tail -1)
 #list1=$(tail -n 100 /var/log/pi-star/MM* | grep 'transmission from' |  awk '!seen[$14]++' | sort -k3n)
-list1=$(tail -n 100 /var/log/pi-star/MM* | grep 'transmission from' |  awk '{seen[$14]=$0} END {for (key in seen) print seen[key]}' | sort -k3n)
+#list2=$(tail -n 100 /var/log/pi-star/MM* | grep 'transmission from' |  awk '{seen[$14]=$0} END {for (key in seen) print seen[key]}' | sort -k3n)
+list2=$(tail -n 100 /var/log/pi-star/MM* | grep 'transmission from' |  awk '{seen[$14]=$0} END {for (key in seen) print seen[key]}')
+list1=$(echo "$list2" | sort -k3,3nr | tail -n 8)
 
 #echo "5 $list1"
 #echo "  "
