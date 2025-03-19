@@ -25,25 +25,14 @@ function nolhd
 
 f1=$(ls -tr /var/log/pi-star/MMDVM* | tail -1)
 list1=$(sudo sed -n '/Linked/p' $f1 | tail -1 | tr -d '"')
-list2=$(sudo sed -n '/via/p' $f1 | tail -1 | tr '  ' ' ')
 
-#echo "$list1"
-#echo "$list2"
 mode=$(echo "$list1" | cut -d " " -f4)
-#echo "$mode"
+	#echo "$mode"
+
+ref=$(sed -n '/.*via/{s///;p;}' /var/log/pi-star/MMDVM* |tail -n1 | sed 's/^[[:space:]]*//') 
+
 
 if [ "$mode" == "D-Star" ]; then
-   tg=$(echo "$list2" | cut -d " " -f18,19)
-   if [ -z "$tg" ]; then
-   	tg=$(echo "$list1" | cut -d " " -f11,12)
-   	if [ -z "$tg" ]; then
-		tg="Not Found"
-		echo "$tg"
-	fi
-   else
-   	echo "$tg"
-   fi
-
+   echo "$ref"
 fi
-
-
+#echo "$mode"
