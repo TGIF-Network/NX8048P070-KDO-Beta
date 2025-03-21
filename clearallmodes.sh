@@ -48,6 +48,11 @@ sudo mount -o remount,rw /
         sudo sed -i '/\[Enabled\]/!b;n;cEnabled='"0"'' /etc/dmr2ysf
         sudo sed -i '/\[Enabled\]/!b;n;cEnabled='"0"'' /etc/dmr2nxdn
 
+#echo "M17"
+
+        sudo sed -i '/\[M17\]/!b;n;cEnable='"0"'' /etc/mmdvmhost
+	sudo sed -i '/\[M17 Network\]/!b;n;cEnable='"0"'' /etc/mmdvmhost
+
 
    if pgrep -x DMR2YSF > /dev/null
    then
@@ -98,6 +103,11 @@ sudo mount -o remount,rw /
    if pgrep -x YSFParrot > /dev/null
    then
      killall -9 YSFParrot
+   fi
+
+   if pgrep -x M17gateway > /dev/null
+   then
+     killall -9 M17gateway
    fi
 
 

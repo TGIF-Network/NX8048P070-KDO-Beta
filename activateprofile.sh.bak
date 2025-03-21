@@ -1,0 +1,250 @@
+#!/bin/bash
+############################################################
+#  Activate  Profile                                       #
+#  VE3RD                                      2019/11/18   #
+############################################################
+set -o errexit
+set -o pipefail
+ver="20250204"
+dirn=/etc/profiles.ini
+declare -i pnum
+args=("$@")
+
+sudo mount -o remount,rw /
+systemctl stop mmdvmhost
+systemctl stop nextiondriver
+
+
+echo "Activate Profile Log" > /home/pi-star/activate.log
+echo "$args" >> /home/pi-star/activate.log
+
+
+if [ -z "$1" ]; then
+        exit
+fi
+
+sudo /usr/local/etc/Nextion_Support/clearallmodes.sh
+sleep 2
+ref=$(cat /etc/ircddbgateway |grep reflector1 |cut -d '=' -f2)
+
+	pnum=$(echo $1 | sed 's/^0*//')
+	#pnum="$1"
+#        echo "$pnum"
+        m0=$(sed -nr "/^\[Profile $pnum\]/ { :l /^Name[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
+        m1=$(sed -nr "/^\[Profile $pnum\]/ { :l /^RXOffset[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
+        m2=$(sed -nr "/^\[Profile $pnum\]/ { :l /^TXOffset[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
+        m3=$(sed -nr "/^\[Profile $pnum\]/ { :l /^RXFrequency[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
+        m4=$(sed -nr "/^\[Profile $pnum\]/ { :l /^TXFrequency[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
+        m5=$(sed -nr "/^\[Profile $pnum\]/ { :l /^Callsign[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
+        m6=$(sed -nr "/^\[Profile $pnum\]/ { :l /^Id[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
+	
+	m6a=${m6:0:7}
+        
+	m7=$(sed -nr "/^\[Profile $pnum\]/ { :l /^StartupDstId[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
+        m8=$(sed -nr "/^\[Profile $pnum\]/ { :l /^Address[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
+        m9=$(sed -nr "/^\[Profile $pnum\]/ { :l /^Mode[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
+        m10=$(sed -nr "/^\[Profile $pnum\]/ { :l /^Port[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
+        m11=$(sed -nr "/^\[Profile $pnum\]/ { :l /^Password[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
+
+	 echo "$m0|$m1|$m2|$m3|$m4|$m5|$m6|$m7|$m8|$m9|$10|$m11" >> /home/pi-star/activate.log
+	sudo mount -o remount,rw /
+
+        sudo sed -i '/^\[/h;G;/Modem/s/\(^RXOffset=\).*/\1'"$m1"'/m;P;d' /etc/mmdvmhost
+        sudo sed -i '/^\[/h;G;/Modem/s/\(^TXOffset=\).*/\1'"$m2"'/m;P;d' /etc/mmdvmhost
+
+        sudo sed -i '/^\[/h;G;/Info/s/\(^RXFrequency=\).*/\1'"$m3"'/m;P;d' /etc/mmdvmhost
+        sudo sed -i '/^\[/h;G;/Info/s/\(^TXFrequency=\).*/\1'"$m4"'/m;P;d' /etc/mmdvmhost
+
+        sudo sed -i '/^\[/h;G;/General/s/\(^Callsign=\).*/\1'"$m5"'/m;P;d' /etc/mmdvmhost
+
+        sudo sed -i '/^\[/h;G;/General/s/\(^Id=\).*/\1'"$m6a"'/m;P;d' /etc/mmdvmhost
+
+	if [ "$m9" == "DMR" ]; then
+                sudo sed -i '/^\[/h;G;/DMR]/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Port=\).*/\162031/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^RemotePort=\).*/\162031/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Local=\).*/\162032/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^LocalPort=\).*/\162032/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Address=\).*/\1'"$m8"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^RemoteAddress=\).*/\1'"$m8"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR]/s/\(^Id=\).*/\1'"$m6"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Password=\).*/\1'"$m11"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR]/s/\(^Id=\).*/\1'"$m6"'/m;P;d' /etc/mmdvmhost
+
+	 echo "$m9 - Rempote Address $m8" >> /home/pi-star/activate.log
+		if [ "$m8" == "127.0.0.1" ]; then
+			sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Type=\).*/\1Gateway/m;P;d' /etc/mmdvmhost
+			echo "Type=Gateway"
+		else	
+			sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Type=\).*/\1Direct/m;P;d' /etc/mmdvmhost
+			echo "Type=Direct"
+		fi
+	
+	fi
+
+	if [ "$m9" == "D-star" ]; then
+                sudo sed -i '/^\[/h;G;/D-Star]/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/D-Star Network/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+             	sudo sed 's/.*reflector1.*/reflector1=REF066 D/' ircddbgateway 	
+	fi
+	if [ "$m9" == "YSF" ]; then
+                sudo sed -i '/^\[/h;G;/System Fusion]/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/System Fusion Network/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/System Fusion Network/s/\(^Port=\).*/\1'"$m10"'/m;P;d' /etc/mmdvmhost
+	
+	fi
+	if [ "$m9" == "NXDN" ]; then
+                sudo sed -i '/^\[/h;G;/NXDN]/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/NXDN Network/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/Network/s/\(^Static=\).*/\1'"$m7"'/m;P;d' /etc/nxdngateway
+
+		
+	
+	fi
+	if [ "$m9" == "P25" ]; then
+                sudo sed -i '/^\[/h;G;/P25]/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/P25 Network/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/Network/s/\(^Static=\).*/\1'"$m7"'/m;P;d' /etc/p25gateway
+
+	
+	fi
+	if [ "$m9" == "M17" ]; then
+                sudo sed -i '/^\[/h;G;/M17]/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/M17 Network/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/Network/s/\(^Startup=\).*/\1'"$m7"'/m;P;d' /etc/m17gateway
+#Startup=M17-NCA_C
+
+	
+	fi
+	if [ "$m9" == "DMR-YSF" ]; then
+                sudo sed -i '/^\[/h;G;/DMR]/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Port=\).*/\1'"$m10"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^RemotePort=\).*/\1'"$m10"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^LocalPort=\).*/\1'"$m10"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Address=\).*/\1'"$m8"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR]/s/\(^Id=\).*/\1'"$m6"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Password=\).*/\1'"$m11"'/m;P;d' /etc/mmdvmhost
+
+                sudo sed -i '/^\[/h;G;/System Fusion/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/System Fusion Network/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+	
+		
+		if [ "$m8" == "127.0.0.1" ]; then
+			sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Type=\).*/\1Gateway/m;P;d' /etc/mmdvmhost
+			echo "Type=Gateway"
+		else	
+			sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Type=\).*/\1Direct/m;P;d' /etc/mmdvmhost
+			echo "Type=Direct"
+		fi
+	
+	fi
+	if [ "$m9" == "DMR-NXDN" ]; then
+                sudo sed -i '/^\[/h;G;/DMR]/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Port=\).*/\1'"$m10"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^RemotePort=\).*/\1'"$m10"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^LocalPort=\).*/\1'"$m10"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Address=\).*/\1'"$m8"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR/s/\(^Id=\).*/\1'"$m6"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Password=\).*/\1'"$m11"'/m;P;d' /etc/mmdvmhost
+
+                sudo sed -i '/^\[/h;G;/NXDN]/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/NXDN Network/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/Network]/s/\(^Static=\).*/\1'"$m7"'/m;P;d' /etc/nxdngateway
+		
+		if [ "$m8" == "127.0.0.1" ]; then
+			sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Type=\).*/\1Gateway/m;P;d' /etc/mmdvmhost
+			echo "Type=Gateway"
+		else	
+			sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Type=\).*/\1Direct/m;P;d' /etc/mmdvmhost
+			echo "Type=Direct"
+		fi
+	
+	fi
+	if [ "$m9" == "DMR-P25" ]; then
+                sudo sed -i '/^\[/h;G;/DMR]/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Port=\).*/\1'"$m10"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^RemotePort=\).*/\1'"$m10"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^LocalPort=\).*/\1'"$m10"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Address=\).*/\1'"$m8"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR]/s/\(^Id=\).*/\1'"$m6"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Password=\).*/\1'"$m11"'/m;P;d' /etc/mmdvmhost
+
+                sudo sed -i '/^\[/h;G;/P25]/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/P25 Network/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/Network/s/\(^Static=\).*/\1'"$m7"'/m;P;d' /etc/p25gateway
+		
+		if [ "$m8" == "127.0.0.1" ]; then
+			sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Type=\).*/\1Gateway/m;P;d' /etc/mmdvmhost
+			echo "Type=Gateway"
+		else	
+			sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Type=\).*/\1Direct/m;P;d' /etc/mmdvmhost
+			echo "Type=Direct"
+		fi
+	
+	fi
+	if [ "$m9" == "DMR-M17" ]; then
+                sudo sed -i '/^\[/h;G;/DMR]/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Port=\).*/\1'"$m10"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^RemotePort=\).*/\1'"$m10"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^LocalPort=\).*/\1'"$m10"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Address=\).*/\1'"$m8"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR]/s/\(^Id=\).*/\1'"$m6"'/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Password=\).*/\1'"$m11"'/m;P;d' /etc/mmdvmhost
+
+                sudo sed -i '/^\[/h;G;/M17]/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/M17 Network/s/\(^Enable=\).*/\11/m;P;d' /etc/mmdvmhost
+                sudo sed -i '/^\[/h;G;/Network/s/\(^Startup=\).*/\1'"$m7"'/m;P;d' /etc/m17gateway
+
+	
+		if [ "$m8" == "127.0.0.1" ]; then
+			sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Type=\).*/\1Gateway/m;P;d' /etc/mmdvmhost
+			echo "Type=Gateway"
+		else	
+			sudo sed -i '/^\[/h;G;/DMR Network/s/\(^Type=\).*/\1Direct/m;P;d' /etc/mmdvmhost
+			echo "Type=Direct"
+		fi
+	
+	fi
+
+#        sudo sed -i '/^\[/h;G;/NXDN/s/\(^Enable=\).*/\1'"$m9"'/m;P;d' /etc/mmdvmhost
+#        sudo sed -i '/^\[/h;G;/NXDN Network/s/\(^Enable=\).*/\1'"$m10"'/m;P;d' /etc/mmdvmhost
+
+
+	## Get specialty Passwords	
+	if [[ "$pval" = "PRIMEPW" ]]; then
+		 pval=$(sudo sed -n '/'"prime"'/p' /usr/local/etc/DMR_Hosts.txt | sed -E "s/[[:space:]]+/|/g"  | cut -d'|' -f4)
+	fi
+
+	if [[ "$pval" = "MNETPW" ]]; then
+		 pval=$(sudo sed -n '/'"mnet"'/p' /usr/local/etc/DMR_Hosts.txt | sed -E "s/[[:space:]]+/|/g"  | cut -d'|' -f4)
+	fi
+
+	if [[ "$pval" = "BMPW" ]]; then
+		pval=$(sudo grep Password  /etc/dstar-radio.mmdvmhost | cut -d'=' -f2)
+	fi
+
+	if [[ "$pval" = "TGIF" ]]; then
+		pval=$(sudo grep Password  /etc/dstar-radio.mmdvmhost | cut -d'=' -f2)
+	fi
+
+	if [[ "$pval" = "MNET" ]]; then
+		pval=$(sudo grep Password  /etc/dstar-radio.mmdvmhost | cut -d'=' -f2)
+	fi
+
+
+	
+	#sudo mmdvmhost.service restart
+
+systemctl start mmdvmhost
+sleep 3
+systemctl start nextiondriver
+sleep 3
+systemctl start nextiondriver
+
+sudo mount -o remount,ro /
+

@@ -8,6 +8,15 @@
 set -o errexit
 set -o pipefail
 
+df=$(df /var/log | cut -d ' ' -f26)
+if [ "$df" == "100%" ]; then
+echo "Log Full-Reboot"
+exit
+
+fi
+
+
+
 if [ -n "$(ls -A /var/log/pi-star/MM* 2>/dev/null)" ]; then   
   f2=$(ls -1 /var/log/pi-star/MMDVM* | tail -n 1)
   #echo "$f2"

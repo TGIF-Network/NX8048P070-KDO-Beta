@@ -30,11 +30,8 @@ fi
 
 
 if [ "$1" == "B" ]; then
-	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Id=\).*/\1'"$3"'/m;P;d' $dirn     
-	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Callsign=\).*/\1'"$4"'/m;P;d' $dirn     
-	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Mode=\).*/\1'"$5"'/m;P;d' $dirn     
-	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(StartupDstId=\).*/\1'"$6"'/m;P;d' $dirn     
-	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Port=\).*/\1'"$7"'/m;P;d' $dirn     
-	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Name=\).*/\1'"$8"'/m;P;d' $dirn     
+	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Address=\).*/\1'"$3"'/m;P;d' $dirn     
+	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(WhiteList=\).*/\1'"$4"'/m;P;d' $dirn     
+	sudo sed -i '/^\[/h;G;/Profile '"$2"'/s/\(Name=\).*/\1'"$5"'/m;P;d' $dirn     
 fi
 
