@@ -18,8 +18,9 @@ dirn=/etc/mmdvmhost
 		m4=$(sed -nr "/^\[Info\]/ { :l /^TXFrequency[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
 		m5=$(sed -nr "/^\[DMR Network\]/ { :l /^Address[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
 		m6=$(sed -nr "/^\[DMR\]/ { :l /^WhiteList[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
-		m6=$(sed -nr "/^\[DMR Network\]/ { :l /^Password[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
+		m7a=$(sed -nr "/^\[DMR Network\]/ { :l /^Password[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
+m7=$(echo "$m7a" | tr -d '"')
 
-               	mt="0|Current|$m1|$m2|$m3|$m4|$m5|$m6"
+               	mt="0|Current|$m1|$m2|$m3|$m4|$m5|$m6|$m7"
 		echo "$mt"
 
