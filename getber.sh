@@ -19,7 +19,7 @@ f1=$(ls -tr /var/log/pi-star/MMDVM* | tail -1)
 list1=$(sudo sed -n '/transmission from/p' $f1 | tail -1)
 mode=$(echo "$list1" | cut -d " " -f4 | tr -d ',')
 ber=$(echo "$list1" | cut -d " " -f21 | tr -d ',' )
-if [ "$ber" == "Packet" ]; then
+if [ "$ber" == "packet" ]; then
    ber="N/A"
 fi
 RXO=$(sed -nr "/^\[Modem\]/ { :l /^RXOffset[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" /etc/mmdvmhost)

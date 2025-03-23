@@ -11,12 +11,13 @@ args=("$@")
 
 
 dirn=/etc/wifiprofiles.ini
-if [ -z "$1" ]; then
+if [ -z "$3" ]; then
    exit
 fi
 
 	sudo sed -i '/^\[/h;G;/Profile'"$1"'/s/\(ssid=\).*/\1'"$2"'/m;P;d' $dirn     
 	sudo sed -i '/^\[/h;G;/Profile'"$1"'/s/\(password=\).*/\1'"$3"'/m;P;d' $dirn     
+	sudo sed -i '/^\[/h;G;/Profile'"$1"'/s/\(priority=\).*/\1'"$4"'/m;P;d' $dirn     
 
 
 
