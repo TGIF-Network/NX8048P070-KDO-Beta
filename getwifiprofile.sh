@@ -19,8 +19,9 @@ pnum=$(echo $1 | sed 's/^0*//')
 		m0=$(sed -nr "/^\[Profile$pnum\]/ { :l /^ssid[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
 		m1=$(sed -nr "/^\[Profile$pnum\]/ { :l /^password[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
 		m2=$(sed -nr "/^\[Profile$pnum\]/ { :l /^priority[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
+		m3=$(sed -nr "/^\[Profile$pnum\]/ { :l /^id_str[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
 
-               	mt="$1|$m0|$m1|$m2"
+               	mt="$1|$m0|$m1|$m2|$m3"
 		echo "$mt"
 fi;
 

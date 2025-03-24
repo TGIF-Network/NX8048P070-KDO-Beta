@@ -17,7 +17,7 @@ if [ "$EUID" -ne 0 ]; then
     echo "Please run this script as root (using sudo)"
     exit 1
 fi
-echo "Starting"
+#echo "Starting"
 sudo mount -o remount,rw /
 sleep 1s
 dirn="/etc/wifiprofiles.ini"
@@ -25,24 +25,31 @@ dirn="/etc/wifiprofiles.ini"
 m11=$(sed -nr "/^\[Profile0\]/ { :l /^ssid[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
 m12=$(sed -nr "/^\[Profile0\]/ { :l /^password[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
 m13=$(sed -nr "/^\[Profile0\]/ { :l /^priority[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
-echo "$m11"
+m14=$(sed -nr "/^\[Profile0\]/ { :l /^id_str[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
+#echo "$m11"
 m21=$(sed -nr "/^\[Profile1\]/ { :l /^ssid[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
 m22=$(sed -nr "/^\[Profile1\]/ { :l /^password[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
-m23=$(sed -nr "/^\[Profile\]/ { :l /^priority[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
+m23=$(sed -nr "/^\[Profile1\]/ { :l /^priority[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
+m24=$(sed -nr "/^\[Profile1\]/ { :l /^id_str[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
 
 m31=$(sed -nr "/^\[Profile2\]/ { :l /^ssid[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
 m32=$(sed -nr "/^\[Profile2\]/ { :l /^password[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
 m33=$(sed -nr "/^\[Profile2\]/ { :l /^priority[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
+m34=$(sed -nr "/^\[Profile2\]/ { :l /^id_str[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
 
 m41=$(sed -nr "/^\[Profile3\]/ { :l /^ssid[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
 m42=$(sed -nr "/^\[Profile3\]/ { :l /^password[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
 m43=$(sed -nr "/^\[Profile3\]/ { :l /^priority[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
-echo "$m11"
+m44=$(sed -nr "/^\[Profile3\]/ { :l /^id_str[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
+
+#echo "$m11"
 
 m51=$(sed -nr "/^\[Profile4\]/ { :l /^ssid[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
 m52=$(sed -nr "/^\[Profile4\]/ { :l /^password[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
 m53=$(sed -nr "/^\[Profile4\]/ { :l /^priority[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
-echo "$m11"
+m54=$(sed -nr "/^\[Profile4\]/ { :l /^id_str[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b l;}" $dirn)
+
+sudo mount -o remount,rw /
 
 # Create the configuration file
 cat > "$WPA_FILE" << EOL
@@ -50,60 +57,60 @@ ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
 ap_scan=1
 fast_reauth=1
-country=US
+country=CA
 
 network={
-	ssid="$m11"
-	psk="$m12"
-	key_mgmt=WPA-PSK
-	id_str="0"
-	priority=90
-	scan_ssid=1
+        ssid="${m11}"
+        psk="${m12}"
+        id_str="${m14}"
+        priority=${m13}
+        scan_ssid=0
 }
 
 network={
-	ssid="$m21"
-	psk="$m22"
-	key_mgmt=WPA-PSK
-	id_str="1"
-	priority=80
-	scan_ssid=1
+        ssid="${m21}"
+        psk="${m22}"
+        id_str="${m24}"
+        priority=${m23}
+        scan_ssid=0
 }
+
 network={
-	ssid="$m31"
-	psk="$m32"
-	key_mgmt=WPA-PSK
-	id_str="2"
-	priority=70
-	scan_ssid=1
+        ssid="${m31}"
+        psk="${m32}"
+        id_str="${m34}"
+        priority=${m33}
+        scan_ssid=0
 }
+
 network={
-	ssid="$m41"
-	psk="$m42"
-	key_mgmt=WPA-PSK
-	id_str="3"
-	priority=60
-	scan_ssid=1
+        ssid="${m41}"
+        psk="${m42}"
+        id_str="${m44}"
+        priority=${m43}
+        scan_ssid=0
 }
+
 network={
-	ssid="$m51"
-	psk="$m52"
-	key_mgmt=WPA-PSK
-	id_str="4"
-	priority=50
-	scan_ssid=1
+        ssid="${m51}"
+        psk="${m52}"
+        id_str="${m54}"
+        priority=${m53}
+        scan_ssid=0
 }
+
 EOL
 
-
 status=$?
-if test $status -eq 0
-then
-echo "Supplicant file was created!"
+if [ $status -eq 0 ]; then
+	echo "Supplicant file was created!"
 else
-echo "Supplicant file was not created!"
+	echo "Supplicant file was not created!"
 fi
 
 
-sudo mount -o remount,ro /
+#sudo mount -o remount,ro /
+sleep 5s
 
+
+#sudo sudo wpa_cli -i wlan0 reconfigure

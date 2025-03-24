@@ -105,4 +105,5 @@ else
         fi
 fi
 sudo mount -o remount,ro /
-
+sleep 5s
+sudo sudo wpa_cli -i wlan0 reconfigure
