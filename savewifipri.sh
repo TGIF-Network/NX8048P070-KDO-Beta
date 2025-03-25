@@ -16,11 +16,11 @@ if [ -z "$3" ]; then
 fi
 
 
-        sudo sed -i '/^\[/h;G;/Profile1/s/\(priority=\).*/\1'"$1"'/m;P;d' $dirn
-        sudo sed -i '/^\[/h;G;/Profile2/s/\(priority=\).*/\1'"$2"'/m;P;d' $dirn
-        sudo sed -i '/^\[/h;G;/Profile3/s/\(priority=\).*/\1'"$3"'/m;P;d' $dirn
-        sudo sed -i '/^\[/h;G;/Profile4/s/\(priority=\).*/\1'"$4"'/m;P;d' $dirn
-        sudo sed -i '/^\[/h;G;/Profile5/s/\(priority=\).*/\1'"$5"'/m;P;d' $dirn
+        sudo sed -i '/^\[/h;G;/Profile0/s/\(priority=\).*/\1'"$1"'/m;P;d' $dirn
+        sudo sed -i '/^\[/h;G;/Profile1/s/\(priority=\).*/\1'"$2"'/m;P;d' $dirn
+        sudo sed -i '/^\[/h;G;/Profile2/s/\(priority=\).*/\1'"$3"'/m;P;d' $dirn
+        sudo sed -i '/^\[/h;G;/Profile3/s/\(priority=\).*/\1'"$4"'/m;P;d' $dirn
+        sudo sed -i '/^\[/h;G;/Profile4/s/\(priority=\).*/\1'"$5"'/m;P;d' $dirn
 
 
 

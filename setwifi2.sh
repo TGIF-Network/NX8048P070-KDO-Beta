@@ -57,7 +57,7 @@ ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
 update_config=1
 ap_scan=1
 fast_reauth=1
-country=CA
+country=US
 
 network={
         ssid="${m11}"
