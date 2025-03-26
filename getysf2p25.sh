@@ -27,5 +27,8 @@ m4=$(sed -nr "/^\[Enabled\]/ { :1 /^Enabled[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b 1;
  
 m5=$(sed -nr "/^\[Network\]/ { :1 /^Static[ ]*=/ { s/.*=[ ]*//; p; q;}; n; b 1;}" /etc/p25gateway)
 
+if [ -z "$m5" ]; then
+m5=10210
+fi
 mt="$m1|$m2|$m3|$m4|$m5"
 echo "$mt"
